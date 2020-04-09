@@ -1,2 +1,2 @@
-# The-Waiting-Frontend
+# The-Waiting-Game-Frontend
 Drinking app
