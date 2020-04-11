@@ -3,6 +3,8 @@ const BASE_URL = "http://localhost:3000/drinks"
 
 // Dom stuff
 const main = document.getElementById("main");
+main.className = "container";
+
 const totalDiv = document.getElementById("total");
 totalDiv.className = "sticky";
 const totalFont = document.createElement("h3");
@@ -22,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const renderDrink = (drink) => {
-        const newDiv = document.createElement("div")
+        const drinksRow = document.createElement("div")
+        drinksRow.className = "row";
+
+        const drinkDiv = document.createElement("div");
+        drinkDiv.className = "col-sm-4";
 
         const title = document.createElement("h2")
         title.innerText = drink.name
@@ -36,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         description.innerText = drink.description
 
         const price = document.createElement("p")
-        price.innerText = `300ml bottle: £${drink.price.toFixed(2)}`
+        price.innerText = `£${drink.price.toFixed(2)}`
 
         const quantitySelect = document.createElement("select");
       
@@ -50,8 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
             getItemPrice(drink, parseInt(e.target.value));
         })
 
-        newDiv.append(title, image, description, price, quantitySelect)
-        main.append(newDiv)
+        drinkDiv.append(title, image, description, price, quantitySelect);
+        drinksRow.append(drinkDiv);
+        main.append(drinksRow);
     }
 
     function getItemPrice(drink, productQuantity) {
