@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         description.innerText = drink.description
         descriptionDiv.append(description)
 
-
         const priceDiv = document.createElement("div")
         priceDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
         const price = document.createElement("p")
