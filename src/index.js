@@ -1,6 +1,7 @@
 // API
 
 const BASE_URL = "http://localhost:3000/drinks"
+const USER_URL = "http://localhost:3000/users"
 
 //user stuff
 
@@ -49,9 +50,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
-            console.log(event)
-            fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks))
+            const name = event.target.username.value
+            const number = event.target.tablenumber.value
+            createUser(name,number)
+    
         })
+    }
+
+
+    const createUser = (name, number) => {
+         fetch(USER_URL, {
+             method: "POST",
+             headers: {
+                'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                name: name,
+                table_number: number
+             })
+         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
+
+        
     }
     
     const renderDrinks = (drinks) => {
