@@ -26,15 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     main.append(orderDrinkButton)
 
     orderDrinkButton.addEventListener('click', event => {
-        // main.innerText = ""
         loginPage()
     })
     
     const loginPage = () => {
         const aDiv = document.createElement("div")
 
-        const title  = document.createElement("h3")
-        title.innerText = "Whats your Username and Table Number ?"
+        // const title  = document.createElement("h3")
+        // title.innerText = "Whats your Username and Table Number ?"
 
         const br = document.createElement("br")
         const form = document.createElement("form")
@@ -42,18 +41,20 @@ document.addEventListener("DOMContentLoaded", () => {
         inputButton.type = "submit"
         inputButton.value = "submit"
         const label1 = document.createElement("label")
-        label1.innerText = "Username"
+        label1.innerText = "Name:  "
         const inputName = document.createElement("input")
         inputName.name = "username"
+        inputName.placeholder = "Enter name..."
         const label2 = document.createElement("label")
-        label2.innerText = "Table Number"
+        label2.innerText = "Table Number:   "
         const inputTable = document.createElement("input")
+        inputTable.placeholder = "Enter table number..."
         inputTable.name = "tablenumber"
 
         label1.append(inputName)
         label2.append(inputTable)
         form.append(label1,label2, inputButton)
-        aDiv.append(title,br, form)
+        aDiv.append(br, form)
         main.append(aDiv)
 
         form.addEventListener("submit", event=> {
@@ -121,30 +122,27 @@ document.addEventListener("DOMContentLoaded", () => {
         price.innerText = `£${drink.price.toFixed(2)}`
         priceDiv.append(price)
 
-        const quantitySelectDiv = document.createElement("div");
-        quantitySelectDiv.className = "col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1"
-        const quantitySelect = document.createElement("select");
-        quantitySelect.class = "btn"
-        quantitySelectDiv.append(quantitySelect)
-      
-        for (let i = 0; i <= 6; i++) {
-            const quantityOption = document.createElement("option");
-            quantityOption.innerText = i;
-            quantitySelect.append(quantityOption);
-          }
+        const addDrinkDiv = document.createElement("div");
+        const addDrinkButton = document.createElement("button");
 
-        quantitySelect.addEventListener("change", (e) => {
+        addDrinkButton.className = "btn btn-success";
+        addDrinkButton.type = "button";
+        addDrinkButton.innerText = "Add to Cart";
+        priceDiv.append(addDrinkButton);
+
+        addDrinkButton.addEventListener("click", (e) => {
             getItemPrice(drink, parseInt(e.target.value));
         })
 
-        newDiv.append(stylingDiv, titleDiv, imageDiv, descriptionDiv, priceDiv, quantitySelectDiv)
+        newDiv.append(stylingDiv, titleDiv, imageDiv, descriptionDiv, priceDiv, addDrinkDiv)
         main.append(newDiv)
     }
 
-    function getItemPrice(drink, productQuantity) {
-        const itemPrice = drink.price * productQuantity;
+    function getItemPrice(drink) {
+        const itemPrice = drink.price;
         itemArray.push(itemPrice);
-        renderRunningTotal(drink, productQuantity)
+        renderRunningTotal(drink)
+        // debugger
     }
 
     function renderRunningTotal(drink, productQuantity) {
