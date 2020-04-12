@@ -10,10 +10,10 @@ const user = false
 const main = document.getElementById("main");
 main.className = "container";
 const totalDiv = document.getElementById("total");
-totalDiv.className = "sticky";
 const totalFont = document.createElement("h3");
 totalFont.innerText = `ORDER TOTAL: £0.00`;
-totalDiv.append(totalFont);
+
+
 
 
 let itemArray = [];
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     main.append(orderDrinkButton)
 
     orderDrinkButton.addEventListener('click', event => {
-        // main.innerText = ""
+        main.innerText = ""
         loginPage()
     })
     
@@ -82,13 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const renderDrinks = (drinks) => {
-        // main.innerText = ""
+        main.innerText = ""
+        totalDiv.className = "sticky";
+        totalDiv.append(totalFont);
        drinks.forEach(drink => renderDrink(drink));
        
     }
 
     const renderDrink = (drink) => {
-
         const newDiv = document.createElement("div")
         newDiv.className = "row"
 
