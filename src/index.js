@@ -95,14 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const newDiv = document.createElement("div")
         newDiv.className = "row"
 
-        const stylingDiv = document.createElement("div")
-        stylingDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
-        const titleDiv = document.createElement("div")
-        titleDiv.className = "col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
-        const title = document.createElement("h2")
-        title.innerText = drink.name
-        titleDiv.append(title)
-
         const imageDiv = document.createElement("div")
         imageDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
 
@@ -112,12 +104,26 @@ document.addEventListener("DOMContentLoaded", () => {
         imageDiv.append(image)
         image.src = drink.img_url
 
+        const boxDiv = document.createElement("div")
+        boxDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
+
+        const titleDiv = document.createElement("div")
+        titleDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+        const title = document.createElement("h2")
+        title.innerText = drink.name
+        titleDiv.append(title)
+
+        
+        const innerBoxDiv = document.createElement("div")
+        innerBoxDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
         const descriptionDiv = document.createElement("div")
-        descriptionDiv.className = "col-xl-7 col-lg-7 col-md-7 col-sm-7 col-xs-7"
+        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"
         const description = document.createElement("p")
         description.innerText = drink.description
         descriptionDiv.append(description)
 
+        const superInnerDiv = document.createElement("div")
+        superInnerDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
         const priceDiv = document.createElement("div")
         priceDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
         const price = document.createElement("p")
@@ -136,7 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
             getItemPrice(drink, parseInt(e.target.value));
         })
 
-        newDiv.append(stylingDiv, titleDiv, imageDiv, descriptionDiv, priceDiv, addDrinkDiv)
+
+        superInnerDiv.append(priceDiv)
+        // innerBoxDiv.append(descriptionDiv, superInnerDiv)
+        boxDiv.append(titleDiv, descriptionDiv, superInnerDiv)
+        newDiv.append(imageDiv, boxDiv)
         main.append(newDiv)
     }
 
@@ -150,10 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let runningTotal = itemArray.reduce((total, amount) => (total + amount)); 
         runningTotal = runningTotal.toFixed(2)
         totalText.innerText = `ORDER TOTAL: £${runningTotal}`;
-        totalDiv.append(totalText);
-        orderNowDiv.append(placeOrderButton);
 
         renderSelectedItems(drink, productQuantity);
+        totalDiv.append(totalText);
+        orderNowDiv.append(placeOrderButton);
     }
 
     function renderSelectedItems(drink, productQuantity) {
