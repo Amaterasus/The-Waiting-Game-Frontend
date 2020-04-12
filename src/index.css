@@ -1,16 +1,35 @@
 div.sticky {
+    /* position: sticky;
+    z-index: 100;
+    /* justify-content: top-end; */
+    /* float: right;
+    width: 17%;
+    text-align: center;
+    padding: 20px;
+    background-color: linen;
+    border: 2px solid lightgrey; */
     position: -webkit-sticky; /* Safari */
     position: sticky;
+    float: right;
+    width: 17%;
     top: 0;
+    z-index: 100;
+    overflow: hidden;
     text-align: center;
-    background-color: pink;
-    border: 2px solid grey;
+    background-color:linen;
+    border: 2px solid lightgrey;
+  }
+
+  .order {
+    float: centre;
   }
 
   p{
     padding: 20px;
     font-size: 16px;
-    /* font-weight: bold; */
     text-align: center;
-    background: lightgrey;
+    background: lightyellow;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    
 }

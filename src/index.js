@@ -10,10 +10,19 @@ const user = false
 const main = document.getElementById("main");
 main.className = "container";
 const totalDiv = document.getElementById("total");
+
 totalDiv.className = "sticky";
-const totalFont = document.createElement("h3");
-totalFont.innerText = `ORDER TOTAL: £0.00`;
-totalDiv.append(totalFont);
+const totalText = document.createElement("h6");
+totalText.innerText = `ORDER TOTAL: £0.00`;
+
+const orderNowDiv = document.getElementById("order");
+orderNowDiv.className = "order";
+const placeOrderButton = document.createElement("button");
+placeOrderButton.innerText = "Place Order";
+placeOrderButton.className = "btn btn-danger";
+
+
+
 
 
 let itemArray = [];
@@ -31,10 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         const aDiv = document.createElement("div")
-
-        // const title  = document.createElement("h3")
-        // title.innerText = "Whats your Username and Table Number ?"
-
         const br = document.createElement("br")
         const form = document.createElement("form")
         const inputButton = document.createElement("input")
@@ -62,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const name = event.target.username.value
             const number = event.target.tablenumber.value
             createUser(name,number)
-    
         })
     }
 
@@ -77,19 +81,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 table_number: number
              })
-         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
-
-        
+         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)));
     }
     
     const renderDrinks = (drinks) => {
-        // main.innerText = ""
-       drinks.forEach(drink => renderDrink(drink));
-       
+        main.innerText = ""
+        totalDiv.className = "sticky";
+        totalDiv.append(totalText);
+       drinks.forEach(drink => renderSingleDrink(drink));
     }
 
-    const renderDrink = (drink) => {
-
+    const renderSingleDrink = (drink) => {
         const newDiv = document.createElement("div")
         newDiv.className = "row"
 
@@ -141,20 +143,23 @@ document.addEventListener("DOMContentLoaded", () => {
     function getItemPrice(drink) {
         const itemPrice = drink.price;
         itemArray.push(itemPrice);
-        renderRunningTotal(drink)
-        // debugger
+        renderRunningTotal(drink);
     }
 
     function renderRunningTotal(drink, productQuantity) {
-        let runningTotal = itemArray.reduce((total, amount) => total + amount); 
-        totalFont.innerText = `ORDER TOTAL: £${runningTotal}`
-        totalDiv.append(totalFont)
+        let runningTotal = itemArray.reduce((total, amount) => (total + amount)); 
+        runningTotal = runningTotal.toFixed(2)
+        totalText.innerText = `ORDER TOTAL: £${runningTotal}`;
+        totalDiv.append(totalText);
+        orderNowDiv.append(placeOrderButton);
+
         renderSelectedItems(drink, productQuantity);
     }
 
     function renderSelectedItems(drink, productQuantity) {
-        const drinkList = document.createElement("p");
-        drinkList.innerText = `${productQuantity} * ${drink.name}`;
-        totalDiv.appendChild(drinkList);
+        const drinkList = document.createElement("span");
+        const drinkBr = document.createElement("br");
+        drinkList.innerText = `1 * ${drink.name}`;
+        totalDiv.append(drinkList, drinkBr);
     }
 })
