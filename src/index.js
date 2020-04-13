@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const form = document.createElement("form")
         const inputButton = document.createElement("input")
         inputButton.type = "submit"
-        inputButton.value = "submit"
+        inputButton.value = "Submit"
         const label1 = document.createElement("label")
         label1.innerText = "Name:  "
         const inputName = document.createElement("input")
@@ -80,7 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 table_number: number
              })
-         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)));
+         }).then(resp => resp.json())
+         .then(fetch(BASE_URL)
+         .then(res => res.json())
+         .then(drinks => renderDrinks(drinks)));
     }
     
     const renderDrinks = (drinks) => {
@@ -116,21 +119,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const innerBoxDiv = document.createElement("div")
         innerBoxDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
         const descriptionDiv = document.createElement("div")
-        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"
+        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12"
         const description = document.createElement("p")
         description.innerText = drink.description
         descriptionDiv.append(description)
 
         const innerDiv = document.createElement("div")
-        innerDiv.className = "col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center"
+        innerDiv.className = "row col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center align-items-center"
+        
+        const priceDiv = document.createElement("div")
         const price = document.createElement("p")
+        priceDiv.className = "col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-1"
         price.innerText = `£${drink.price.toFixed(2)}`
+        priceDiv.append(price)
 
         const addDrinkDiv = document.createElement("div");
+        addDrinkDiv.className = "col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-1"
         const addDrinkButton = document.createElement("button");
-
-        addDrinkButton.className = "btn btn-success";
-        addDrinkButton.type = "button";
+        addDrinkButton.className = "btn btn-success"
+        addDrinkDiv.append(addDrinkButton)
         addDrinkButton.innerText = "Add to Cart";
 
         addDrinkButton.addEventListener("click", (e) => {
@@ -138,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
 
-        innerDiv.append(price, addDrinkButton)
+        innerDiv.append(priceDiv, addDrinkDiv)
         // innerBoxDiv.append(descriptionDiv, superInnerDiv)
         boxDiv.append(titleDiv, descriptionDiv, innerDiv)
         newDiv.append(imageDiv, boxDiv)
