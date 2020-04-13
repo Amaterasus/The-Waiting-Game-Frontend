@@ -8,7 +8,6 @@ const user = false
 
 // Dom stuff
 const main = document.getElementById("main");
-main.className = "container";
 const totalDiv = document.getElementById("total");
 
 totalDiv.className = "sticky";
@@ -86,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
-        totalDiv.className = "sticky";
+        totalDiv.className = "sticky h-100";
         totalDiv.append(totalText);
        drinks.forEach(drink => renderSingleDrink(drink));
     }
@@ -122,13 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
         description.innerText = drink.description
         descriptionDiv.append(description)
 
-        const superInnerDiv = document.createElement("div")
-        superInnerDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
-        const priceDiv = document.createElement("div")
-        priceDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
+        const innerDiv = document.createElement("div")
+        innerDiv.className = "col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center"
         const price = document.createElement("p")
         price.innerText = `£${drink.price.toFixed(2)}`
-        priceDiv.append(price)
 
         const addDrinkDiv = document.createElement("div");
         const addDrinkButton = document.createElement("button");
@@ -136,16 +132,15 @@ document.addEventListener("DOMContentLoaded", () => {
         addDrinkButton.className = "btn btn-success";
         addDrinkButton.type = "button";
         addDrinkButton.innerText = "Add to Cart";
-        priceDiv.append(addDrinkButton);
 
         addDrinkButton.addEventListener("click", (e) => {
             getItemPrice(drink, parseInt(e.target.value));
         })
 
 
-        superInnerDiv.append(priceDiv)
+        innerDiv.append(price, addDrinkButton)
         // innerBoxDiv.append(descriptionDiv, superInnerDiv)
-        boxDiv.append(titleDiv, descriptionDiv, superInnerDiv)
+        boxDiv.append(titleDiv, descriptionDiv, innerDiv)
         newDiv.append(imageDiv, boxDiv)
         main.append(newDiv)
     }
