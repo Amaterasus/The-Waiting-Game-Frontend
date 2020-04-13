@@ -10,7 +10,6 @@ const user = false
 const main = document.getElementById("main");
 const totalDiv = document.getElementById("total");
 
-totalDiv.className = "sticky";
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
 
@@ -20,24 +19,25 @@ const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-danger";
 
-
-
-
+const getDrinks = document.getElementById("Get-drinks")
+const game = document.getElementById("Play")
 
 let itemArray = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    const orderDrinkButton = document.createElement("button")
-    orderDrinkButton.innerText = "Order Drinks"
-    main.append(orderDrinkButton)
-
-    orderDrinkButton.addEventListener('click', event => {
+    getDrinks.addEventListener("click", e => {
+        e.preventDefault()
         loginPage()
     })
+
+    game.addEventListener("click", e => {
+        e.preventDefault()
+    })
+
     
     const loginPage = () => {
+        main.innerText = ""
         const aDiv = document.createElement("div")
         const br = document.createElement("br")
         const form = document.createElement("form")
