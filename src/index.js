@@ -19,9 +19,7 @@ const orderNowDiv = document.getElementById("order");
 orderNowDiv.className = "order";
 const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
-placeOrderButton.className = "btn btn-danger";
-
-
+placeOrderButton.className = "btn btn-success";
 
 
 
@@ -70,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-
     const createUser = (name, number) => {
          fetch(USER_URL, {
              method: "POST",
@@ -104,23 +101,22 @@ document.addEventListener("DOMContentLoaded", () => {
         imageDiv.append(image)
         image.src = drink.img_url
 
-        const boxDiv = document.createElement("div")
-        boxDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
+        const boxDiv = document.createElement("div");
+        boxDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10";
 
-        const titleDiv = document.createElement("div")
-        titleDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
-        const title = document.createElement("h2")
-        title.innerText = drink.name
-        titleDiv.append(title)
-
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12";
+        const title = document.createElement("h2");
+        title.innerText = drink.name;
+        titleDiv.append(title);
         
-        const innerBoxDiv = document.createElement("div")
-        innerBoxDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
-        const descriptionDiv = document.createElement("div")
-        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"
-        const description = document.createElement("p")
-        description.innerText = drink.description
-        descriptionDiv.append(description)
+        const innerBoxDiv = document.createElement("div");
+        innerBoxDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12";
+        const descriptionDiv = document.createElement("div");
+        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8";
+        const description = document.createElement("p");
+        description.innerText = drink.description;
+        descriptionDiv.append(description);
 
         const superInnerDiv = document.createElement("div")
         superInnerDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
@@ -133,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const addDrinkDiv = document.createElement("div");
         const addDrinkButton = document.createElement("button");
 
-        addDrinkButton.className = "btn btn-success";
+        addDrinkButton.className = "btn btn-primary";
         addDrinkButton.type = "button";
         addDrinkButton.innerText = "Add to Cart";
         priceDiv.append(addDrinkButton);
@@ -142,9 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             getItemPrice(drink, parseInt(e.target.value));
         })
 
-
         superInnerDiv.append(priceDiv)
-        // innerBoxDiv.append(descriptionDiv, superInnerDiv)
         boxDiv.append(titleDiv, descriptionDiv, superInnerDiv)
         newDiv.append(imageDiv, boxDiv)
         main.append(newDiv)
@@ -164,12 +158,28 @@ document.addEventListener("DOMContentLoaded", () => {
         renderSelectedItems(drink, productQuantity);
         totalDiv.append(totalText);
         orderNowDiv.append(placeOrderButton);
+
+        placeOrderButton.addEventListener("click", () => {
+            postOrder(runningTotal);
+        });
     }
 
     function renderSelectedItems(drink, productQuantity) {
         const drinkList = document.createElement("span");
         const drinkBr = document.createElement("br");
-        drinkList.innerText = `1 * ${drink.name}`;
+        const removeButton = document.createElement("button")
+
+        removeButton.className = "btn btn-outline-danger btn-xs";
+        removeButton.innerText = "x";
+
+        drinkList.innerText = `1 * ${drink.name}   `;
+        drinkList.append(removeButton);
         totalDiv.append(drinkList, drinkBr);
     }
+
+    function postOrder(runningTotal) {
+
+    }
+
+
 })
