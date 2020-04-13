@@ -20,16 +20,72 @@ div.sticky {
     border: 2px solid lightgrey;
   }
 
+  .div-wrapper {
+    height:800px;
+  }
+
   .order {
     float: centre;
   }
 
-  p{
+  .col-10.col-md-8.col-lg-6 {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1em;
+    background:lightyellow;
+    border: 1px solid #c1c1c1;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+  } 
+
+  .col-10.col-md-8.col-lg-6 > * {
+    padding: 1em;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: 3px solid gold;
+  }
+
+  input,
+  textarea,
+  button {
+    width: 100%;
+    border: 1px solid #000;
+  }
+
+
+  form label {
+    display: block;
+  }
+
+  form p {
+    margin: 0;
+  }
+  
+  button {
+    background: lightgrey;
+    width: 50%;
+    border: 0;
+  }
+
+
+  form {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+  }
+
+  form p {
+    grid-column: 1 / 2;
+  }
+  
+  
+  p.drinks{
     padding: 20px;
     font-size: 16px;
     text-align: center;
     background: lightyellow;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    
-}
+  }
