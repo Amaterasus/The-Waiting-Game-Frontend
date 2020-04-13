@@ -28,11 +28,15 @@ let itemArray = [];
 document.addEventListener("DOMContentLoaded", () => {
     getDrinks.addEventListener("click", e => {
         e.preventDefault()
+        getDrinks.classList.add("active")
+        game.classList.remove("active")
         loginPage()
     })
 
     game.addEventListener("click", e => {
         e.preventDefault()
+        getDrinks.classList.remove("active")
+        game.classList.add("active")
     })
 
     
