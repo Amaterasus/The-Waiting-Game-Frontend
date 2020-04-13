@@ -32,6 +32,23 @@ document.addEventListener("DOMContentLoaded", () => {
         game.classList.remove("active")
         loginPage()
     })
+    // const div = document.createElement("div")
+    // const divRow = document.createElement("div")
+    // divRow.className = "row"
+    // div.className = "col-10 offset-1 col-lg-8 offset-lg-2 div-wrapper d-flex justify-content-center align-items-center"
+    
+    // const orderDrinkButton = document.createElement("button")
+    // orderDrinkButton.className = "btn btn-success";
+    // orderDrinkButton.innerText = "Order Drinks"
+    
+    // divRow.append(div)
+    // div.append(orderDrinkButton)
+    // main.append(divRow)
+
+    // orderDrinkButton.addEventListener('click', event => {
+    //     main.innerText =""
+    //     loginPage()
+    // })
 
     game.addEventListener("click", e => {
         e.preventDefault()
@@ -42,28 +59,38 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         main.innerText = ""
-        const aDiv = document.createElement("div")
+        main.className = "container h-100"
+        const parentDiv = document.createElement("div")
+        parentDiv.className = "row h-100 justify-content-center align-items-center"
+        const childDiv = document.createElement("div")
+        childDiv.className = "col-10 col-md-8 col-lg-6"
         const br = document.createElement("br")
         const form = document.createElement("form")
+        const pButton = document.createElement("p")
         const inputButton = document.createElement("input")
+        inputButton.className = "btn btn-success"
         inputButton.type = "submit"
         inputButton.value = "Submit"
         const label1 = document.createElement("label")
+        const p1 = document.createElement("p")
         label1.innerText = "Name:  "
         const inputName = document.createElement("input")
         inputName.name = "username"
         inputName.placeholder = "Enter name..."
+        const p2 = document.createElement("p")
         const label2 = document.createElement("label")
         label2.innerText = "Table Number:   "
         const inputTable = document.createElement("input")
         inputTable.placeholder = "Enter table number..."
         inputTable.name = "tablenumber"
 
-        label1.append(inputName)
-        label2.append(inputTable)
-        form.append(label1,label2, inputButton)
-        aDiv.append(br, form)
-        main.append(aDiv)
+        pButton.append(inputButton)
+        p1.append(label1, inputName)
+        p2.append(label2, inputTable)
+        form.append(p1,p2, pButton)
+        childDiv.append(br, form)
+        parentDiv.append(childDiv)
+        main.append(parentDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
@@ -84,10 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 table_number: number
              })
-         }).then(resp => resp.json())
-         .then(fetch(BASE_URL)
-         .then(res => res.json())
-         .then(drinks => renderDrinks(drinks)));
+         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
+          .catch(error => console.log(error));
+         
     }
     
     const renderDrinks = (drinks) => {
@@ -125,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const descriptionDiv = document.createElement("div")
         descriptionDiv.className = "col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12"
         const description = document.createElement("p")
+        description.className = "drinks"
         description.innerText = drink.description
         descriptionDiv.append(description)
 
@@ -134,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const priceDiv = document.createElement("div")
         const price = document.createElement("p")
         priceDiv.className = "col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-1"
+        price.className = "drinks"
         price.innerText = `£${drink.price.toFixed(2)}`
         priceDiv.append(price)
 
