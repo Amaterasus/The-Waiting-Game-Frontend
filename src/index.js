@@ -164,14 +164,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const descriptionDiv = document.createElement("div")
-        descriptionDiv.className = "col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12"
+        descriptionDiv.className = "col-xl-7 col-lg-7 col-md-12 col-sm-12 col-xs-12"
         const description = document.createElement("p")
         description.className = "drinks"
         description.innerText = drink.description
         descriptionDiv.append(description)
 
         const innerDiv = document.createElement("div")
-        innerDiv.className = "row col-xl-2 col-lg-2 col-md-12 col-sm-2 col-xs-12 text-center align-items-center"
+        innerDiv.className = "row col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 text-center align-items-center"
         
         const priceDiv = document.createElement("div")
         const price = document.createElement("p")
