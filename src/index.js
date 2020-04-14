@@ -8,7 +8,6 @@ const user = false
 
 // Dom stuff
 const main = document.getElementById("main");
-const totalDiv = document.getElementById("total");
 
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
@@ -17,6 +16,7 @@ const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-danger";
 
+const ulNav = document.querySelector(".navbar-nav")
 const getDrinks = document.getElementById("Get-drinks")
 const game = document.getElementById("Play")
 
@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
         getDrinks.classList.add("active")
         game.classList.remove("active")
         loginPage()
-    })
+        getDrinks.classList.add("disabled")
+  })
 
     game.addEventListener("click", e => {
         e.preventDefault()
@@ -41,11 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         main.innerText = ""
+        const anchorDiv = document.createElement("div")
+        anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
         parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center"
         const childDiv = document.createElement("div")
-        childDiv.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 colour"
-        const br = document.createElement("br")
+        childDiv.className = "col-4 colour"
         const form = document.createElement("form")
         const pButton = document.createElement("p")
         const inputButton = document.createElement("input")
@@ -69,9 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
         p1.append(label1, inputName)
         p2.append(label2, inputTable)
         form.append(p1,p2, pButton)
-        childDiv.append(br, form)
+        childDiv.append(form)
         parentDiv.append(childDiv)
-        main.append(parentDiv)
+        anchorDiv.append(parentDiv)
+        main.append(anchorDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
@@ -92,13 +95,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 table_number: number
              })
-         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
-          .catch(error => console.log(error));
+         }).then(parseJSON)
+          .catch(error => error.then(msg => {alert(msg.errors)}));
          
     }
+
+    const parseJSON = resp => {
+        console.log("this is the response from the server", resp);
+        if (resp.ok) {
+          return resp.json().then(fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
+        } else {
+          throw resp.json();
+        }
+      };
+
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
+        
+        const logOutLi = document.createElement("li")
+        const logOutA = document.createElement("a")
+        logOutA.setAttribute('href', '#')
+        logOutA.className = "nav-link"
+        logOutA.innerText = "Log Out"
+        logOutLi.append(logOutA)
+        ulNav.append(logOutLi)
+
+        logOutLi.addEventListener('click', event => {
+            logOutLi.remove()
+            getDrinks.classList.remove("disabled")
+            loginPage()
+        } )
+
         const stylingDiv = document.createElement("div")
         stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
         const totalDiv = document.createElement("div")
@@ -134,9 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
         title.innerText = drink.name
         titleDiv.append(title)
 
-        
-        const innerBoxDiv = document.createElement("div")
-        innerBoxDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+
         const descriptionDiv = document.createElement("div")
         descriptionDiv.className = "col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12"
         const description = document.createElement("p")
@@ -145,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         descriptionDiv.append(description)
 
         const innerDiv = document.createElement("div")
-        innerDiv.className = "row col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center align-items-center"
+        innerDiv.className = "row col-xl-2 col-lg-2 col-md-12 col-sm-2 col-xs-12 text-center align-items-center"
         
         const priceDiv = document.createElement("div")
         const price = document.createElement("p")
@@ -178,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             main.append(newDiv)
         }  
+
     }
 
     function getItemPrice(drink) {
