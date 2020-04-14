@@ -13,8 +13,6 @@ const totalDiv = document.getElementById("total");
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
 
-const orderNowDiv = document.getElementById("order");
-orderNowDiv.className = "order";
 const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-danger";
@@ -23,6 +21,7 @@ const getDrinks = document.getElementById("Get-drinks")
 const game = document.getElementById("Play")
 
 let itemArray = [];
+let flip = true
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -32,23 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
         game.classList.remove("active")
         loginPage()
     })
-    // const div = document.createElement("div")
-    // const divRow = document.createElement("div")
-    // divRow.className = "row"
-    // div.className = "col-10 offset-1 col-lg-8 offset-lg-2 div-wrapper d-flex justify-content-center align-items-center"
-    
-    // const orderDrinkButton = document.createElement("button")
-    // orderDrinkButton.className = "btn btn-success";
-    // orderDrinkButton.innerText = "Order Drinks"
-    
-    // divRow.append(div)
-    // div.append(orderDrinkButton)
-    // main.append(divRow)
-
-    // orderDrinkButton.addEventListener('click', event => {
-    //     main.innerText =""
-    //     loginPage()
-    // })
 
     game.addEventListener("click", e => {
         e.preventDefault()
@@ -59,11 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         main.innerText = ""
-        main.className = "container h-100"
         const parentDiv = document.createElement("div")
-        parentDiv.className = "row h-100 justify-content-center text-center align-items-center"
+        parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center"
         const childDiv = document.createElement("div")
-        childDiv.className = "col-lg-4 colour"
+        childDiv.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 colour"
         const br = document.createElement("br")
         const form = document.createElement("form")
         const pButton = document.createElement("p")
@@ -118,17 +99,25 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
-        totalDiv.className = "sticky h-100";
-        totalDiv.append(totalText);
-       drinks.forEach(drink => renderSingleDrink(drink));
+        const stylingDiv = document.createElement("div")
+        stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
+        const totalDiv = document.createElement("div")
+        totalDiv.id = "total"
+        totalDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
+        const orderDiv = document.createElement("div")
+        orderDiv.id = "order"
+        orderDiv.className = "order"
+        totalDiv.append(orderDiv, totalText);   
+        drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
+
     }
 
-    const renderSingleDrink = (drink) => {
+    const renderSingleDrink = (drink, totalDiv) => {
         const newDiv = document.createElement("div")
-        newDiv.className = "row"
+        newDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
 
         const imageDiv = document.createElement("div")
-        imageDiv.className = "col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2"
+        imageDiv.className = "col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3"
 
         const image = document.createElement("img")
         image.className = "img-responsive"
@@ -137,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         image.src = drink.img_url
 
         const boxDiv = document.createElement("div")
-        boxDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
+        boxDiv.className = "row col-xl-7 col-lg-7 col-md-7 col-sm-7 col-xs-7"
 
         const titleDiv = document.createElement("div")
         titleDiv.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
@@ -178,10 +167,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         innerDiv.append(priceDiv, addDrinkDiv)
-        // innerBoxDiv.append(descriptionDiv, superInnerDiv)
         boxDiv.append(titleDiv, descriptionDiv, innerDiv)
         newDiv.append(imageDiv, boxDiv)
-        main.append(newDiv)
+        if (flip)
+        {
+            flip = false
+            main.append(newDiv, totalDiv)
+        }
+        else
+        {
+            main.append(newDiv)
+        }  
     }
 
     function getItemPrice(drink) {
@@ -194,15 +190,17 @@ document.addEventListener("DOMContentLoaded", () => {
         let runningTotal = itemArray.reduce((total, amount) => (total + amount)); 
         runningTotal = runningTotal.toFixed(2)
         totalText.innerText = `ORDER TOTAL: £${runningTotal}`;
-
+        const totalDiv = document.getElementById("total")
         renderSelectedItems(drink, productQuantity);
         totalDiv.append(totalText);
-        orderNowDiv.append(placeOrderButton);
+        const orderDiv = document.getElementById("order")
+        orderDiv.append(placeOrderButton);
     }
 
     function renderSelectedItems(drink, productQuantity) {
         const drinkList = document.createElement("span");
         const drinkBr = document.createElement("br");
+        const totalDiv = document.getElementById("total")
         drinkList.innerText = `1 * ${drink.name}`;
         totalDiv.append(drinkList, drinkBr);
     }

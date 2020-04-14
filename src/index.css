@@ -14,7 +14,7 @@ div.sticky {
     width: 17%;
     top: 0;
     z-index: 100;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-align: center;
     background-color:linen;
     border: 2px solid lightgrey;
@@ -89,3 +89,6 @@ div.sticky {
     border: 1px solid lightgrey;
     border-radius: 5px;
   }
+
+
+  
