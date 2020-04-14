@@ -19,6 +19,7 @@ const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-danger";
 
+const ulNav = document.querySelector(".navbar-nav")
 const getDrinks = document.getElementById("Get-drinks")
 const game = document.getElementById("Play")
 
@@ -31,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
         getDrinks.classList.add("active")
         game.classList.remove("active")
         loginPage()
-    })
+        getDrinks.classList.add("disabled")
+  })
     // const div = document.createElement("div")
     // const divRow = document.createElement("div")
     // divRow.className = "row"
@@ -59,12 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         main.innerText = ""
-        main.className = "container h-100"
+        const anchorDiv = document.createElement("div")
+        anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
         parentDiv.className = "row h-100 justify-content-center text-center align-items-center"
         const childDiv = document.createElement("div")
-        childDiv.className = "col-lg-4 colour"
-        const br = document.createElement("br")
+        childDiv.className = "col-4 colour"
         const form = document.createElement("form")
         const pButton = document.createElement("p")
         const inputButton = document.createElement("input")
@@ -88,9 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
         p1.append(label1, inputName)
         p2.append(label2, inputTable)
         form.append(p1,p2, pButton)
-        childDiv.append(br, form)
+        childDiv.append(form)
         parentDiv.append(childDiv)
-        main.append(parentDiv)
+        anchorDiv.append(parentDiv)
+        main.append(anchorDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
@@ -111,17 +114,45 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 table_number: number
              })
-         }).then(resp => fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
-          .catch(error => console.log(error));
+         }).then(parseJSON)
+          .catch(error => error.then(msg => {alert(msg.errors)}));
          
     }
+
+    const parseJSON = resp => {
+        console.log("this is the response from the server", resp);
+        if (resp.ok) {
+          return resp.json().then(fetch(BASE_URL).then(res => res.json()).then(drinks => renderDrinks(drinks)))
+        } else {
+          throw resp.json();
+        }
+      };
+
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
         totalDiv.className = "sticky h-100";
         totalDiv.append(totalText);
-       drinks.forEach(drink => renderSingleDrink(drink));
+        
+        const logOutLi = document.createElement("li")
+        const logOutA = document.createElement("a")
+        logOutA.setAttribute('href', '#')
+        logOutA.className = "nav-link"
+        logOutA.innerText = "Log Out"
+        logOutLi.append(logOutA)
+        ulNav.append(logOutLi)
+
+        logOutLi.addEventListener('click', event => {
+            logOutLi.remove()
+            getDrinks.classList.remove("disabled")
+            loginPage()
+        } )
+       
+        drinks.forEach(drink => renderSingleDrink(drink));
+
     }
+
+
 
     const renderSingleDrink = (drink) => {
         const newDiv = document.createElement("div")
