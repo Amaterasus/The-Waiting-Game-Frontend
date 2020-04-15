@@ -1,9 +1,8 @@
 // API
 const BASE_URL = "http://localhost:3000/drinks"
 const USER_URL = "http://localhost:3000/users"
+const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 
-//user stuff
-const user = false 
 
 //other stuff
 let currentOrder = {
@@ -49,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault()
         getDrinks.classList.remove("active")
         game.classList.add("active")
+        runGame()
+        
     })
     
     const loginPage = () => {
@@ -293,5 +294,71 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(currentUser)
     }
 
+    const runGame = () => {
+        fetch(QUIZ_URL)
+        .then(res => res.json())
+        .then(response => quizMaster(response.results))
+    }
 
+
+    async function quizMaster(results) {
+        let questions = [...results]
+        const score = document.createElement("h2")
+        score.className
+        score.innerText = "Score: "
+        let scoreSpan = document.createElement("span")
+        scoreSpan.innerText = 0
+        score.append(scoreSpan)
+
+        while (questions.length > 0)
+        {
+            main.innerText= ""
+            main.append(score)
+            // pull out a random question
+            const question = questions.sort(() => Math.random() - 0.5).pop(); // this works
+            // pull out the answer of the question
+            const answer = question.correct_answer // this works
+            // let the user decide between the answer and the incorrect
+            const choices = [...question.incorrect_answers, question.correct_answer].sort(() => Math.random() - 0.5); // this works
+            
+            // go to another fucntion where you render the question
+            // then you return the users answer
+            // 
+            const userAnswer = await renderQuestion(question.question, choices) // make a function here that renders the page and returns the users answer
+            
+            userAnswer === answer ? scoreSpan.innerText++ : false // if true increase the points by 1 else do nothing
+            // compare the users choice with the answer we pulled out at the start
+
+        }
+
+        
+    }
+
+    const renderQuestion = (question, choices) => {
+        
+        const div = document.createElement('div')
+        const questionTag = document.createElement("h2")
+        questionTag.innerText = question
+
+        div.append(questionTag)
+        
+        choices.forEach( choice => {
+            const choiceTag = document.createElement("button")
+            // choiceTag.append
+            choiceTag.className = "btn btn-primary"
+            choiceTag.innerText = choice 
+            choiceTag.value = choice 
+
+            div.append(choiceTag)
+        
+        })
+
+        main.append(div)
+
+        return new Promise((resolve) => {
+            div.addEventListener('click', (e) => {
+                if (e.target.tagName === "BUTTON") resolve(e.target.value)
+            })
+        })
+    }
 })
