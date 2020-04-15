@@ -14,7 +14,7 @@ div.sticky {
     width: 17%;
     top: 0;
     z-index: 100;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-align: center;
     background-color:linen;
     border: 2px solid lightgrey;
@@ -24,12 +24,64 @@ div.sticky {
     float: centre;
   }
 
-  p{
+  .colour {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 5px;
+    background:lightyellow;
+    border: 1px solid #c1c1c1;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+  } 
+
+  .colour > * {
+    padding: 1em;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: 3px solid grey;
+  }
+
+  input,
+  textarea,
+  button {
+    width: 75%;
+    border: 1px solid #000;
+  }
+
+
+  form label {
+    display: block;
+  }
+
+  form p {
+    margin: 0;
+  }
+  
+  button {
+    background: lightgrey;
+    width: 50%;
+    border: 0;
+  }
+
+
+  form {
+    display: grid;
+    /* grid-template-columns: 2fr fr; */
+    padding: 1px;
+    grid-gap: 20px;
+  }
+  
+  
+  p.drinks{
     padding: 20px;
     font-size: 16px;
     text-align: center;
     background: lightyellow;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    
-}
+  }
+
+
+  
