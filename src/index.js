@@ -3,8 +3,17 @@ const BASE_URL = "http://localhost:3000/drinks"
 const USER_URL = "http://localhost:3000/users"
 
 //user stuff
-
 const user = false 
+
+//other stuff
+let currentOrder = {
+    items: [],
+};
+let allDrinks = [];
+let currentUser = {
+    name: [],
+    table: []
+};
 
 // Dom stuff
 const main = document.getElementById("main");
@@ -13,16 +22,14 @@ const totalDiv = document.getElementById("total");
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
 
+const getDrinks = document.getElementById("Get-drinks");
+const game = document.getElementById("Play");
+
 const orderNowDiv = document.getElementById("order");
 orderNowDiv.className = "order";
 const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-success";
-
-
-
-let itemArray = [];
-
 
 document.addEventListener("DOMContentLoaded", () => {
     getDrinks.addEventListener("click", e => {
@@ -37,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         getDrinks.classList.remove("active")
         game.classList.add("active")
     })
-
     
     const loginPage = () => {
         main.innerText = ""
@@ -68,6 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault()
             const name = event.target.username.value
             const number = event.target.tablenumber.value
+            currentUser.name.push(name)
+            currentUser.table.push(number)
             createUser(name,number)
         })
     }
@@ -85,15 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
          }).then(resp => resp.json())
          .then(fetch(BASE_URL)
          .then(res => res.json())
-         .then(drinks => renderDrinks(drinks)));
-    }
+         .then(drinks => {
+            allDrinks = drinks;
+            renderDrinks(drinks)
+        }));
+    };
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
         totalDiv.className = "sticky h-100";
         totalDiv.append(totalText);
-       drinks.forEach(drink => renderSingleDrink(drink));
-    }
+        drinks.forEach(drink => renderSingleDrink(drink));
+    };
 
     const renderSingleDrink = (drink) => {
         const newDiv = document.createElement("div")
@@ -137,57 +148,89 @@ document.addEventListener("DOMContentLoaded", () => {
         const addDrinkDiv = document.createElement("div");
         addDrinkDiv.className = "col-xl-12 col-lg-12 col-md-6 col-sm-6 col-xs-1"
         const addDrinkButton = document.createElement("button");
-        addDrinkButton.className = "btn btn-success"
-        addDrinkDiv.append(addDrinkButton)
+        addDrinkButton.className = "btn btn-primary";
+        addDrinkDiv.append(addDrinkButton);
         addDrinkButton.innerText = "Add to Cart";
 
         addDrinkButton.addEventListener("click", (e) => {
-            getItemPrice(drink, parseInt(e.target.value));
+            addToOrder(drink);
         })
 
-
-        innerDiv.append(priceDiv, addDrinkDiv)
-        // innerBoxDiv.append(descriptionDiv, superInnerDiv)
-        boxDiv.append(titleDiv, descriptionDiv, innerDiv)
-        newDiv.append(imageDiv, boxDiv)
-        main.append(newDiv)
+        innerDiv.append(priceDiv, addDrinkDiv);
+        boxDiv.append(titleDiv, descriptionDiv, innerDiv);
+        newDiv.append(imageDiv, boxDiv);
+        main.append(newDiv);
     }
 
-    function getItemPrice(drink) {
-        const itemPrice = drink.price;
-        itemArray.push(itemPrice);
-        renderRunningTotal(drink);
+    function addToOrder(drink) {
+        let orderItem = currentOrder.items.find(item => item.drinkId === drink.id);
+        if(orderItem === undefined) {
+            const newItem = { 
+                drinkId: drink.id,
+                quantity: 1 
+            };
+            currentOrder.items.push(newItem);
+        } else {
+            for( var i in currentOrder.items ) {
+                if(currentOrder.items[i].drinkId === drink.id) {
+                    currentOrder.items[i].quantity += 1
+                };
+            };
+        }
+        renderShoppingCart();
+
+    };
+
+    function renderShoppingCart() {
+        currentOrder.items.forEach(item => renderSelectedItem(item))
     }
 
-    function renderRunningTotal(drink, productQuantity) {
-        let runningTotal = itemArray.reduce((total, amount) => (total + amount)); 
-        runningTotal = runningTotal.toFixed(2)
-        totalText.innerText = `ORDER TOTAL: £${runningTotal}`;
-
-        renderSelectedItems(drink, productQuantity);
-        totalDiv.append(totalText);
-        orderNowDiv.append(placeOrderButton);
-
-        placeOrderButton.addEventListener("click", () => {
-            postOrder(runningTotal);
-        });
-    }
-
-    function renderSelectedItems(drink, productQuantity) {
+    function renderSelectedItem(drink) {
         const drinkList = document.createElement("span");
-        const drinkBr = document.createElement("br");
-        const removeButton = document.createElement("button")
+        const removeButton = document.createElement("button");
+        const quantity = drink.quantity;
 
-        removeButton.className = "btn btn-outline-danger btn-xs";
+        removeButton.className = "btn btn-outline-danger btn-xs py-0";
         removeButton.innerText = "x";
+        removeButton.drinkId = drink.id;
 
-        drinkList.innerText = `1 * ${drink.name}   `;
+        removeButton.addEventListener('click', (e) => {
+            const array = currentOrder.items;
+            const itemToRemove = array.find((item) => item.drinkId === e.target.drinkId);
+            const index = array.indexOf(itemToRemove);
+            array.splice(index, 1);
+            e.target.parentElement.remove();
+            renderTotal();
+        })
+        
+        drinkList.innerText = `${drink.name} x ${quantity}  `;
         drinkList.append(removeButton);
-        totalDiv.append(drinkList, drinkBr);
+        totalDiv.append(drinkList);
+        renderTotal();
     }
 
-    function postOrder(runningTotal) {
+    function renderTotal() {
+        totalText.innerText = `ORDER TOTAL: £${calculateTotal(currentOrder.items)}`
+        orderNowDiv.append(placeOrderButton);
+    }
 
+    function calculateTotal(items) {
+        let total = 0;
+        items.forEach((item) => {
+          const drink = allDrinks.find((d) => d.id === item.drinkId);
+          total += drink.price
+        });
+        return total.toFixed(2);
+    };
+ 
+    placeOrderButton.addEventListener("click", () => {
+        currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder()
+    });
+    
+    function postOrder() {
+
+        console.log("I'm here")
+        console.log(currentUser)
     }
 
 
