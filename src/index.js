@@ -4,6 +4,9 @@ const USER_URL = "http://localhost:3000/users"
 const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 
 
+//current user 
+let current_user = false
+
 //other stuff
 let currentOrder = {
     items: [],
@@ -40,12 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault()
         getDrinks.classList.add("active")
         game.classList.remove("active")
+
+    if (!current_user === true ){
         loginPage()
         getDrinks.classList.add("disabled")
+    }
+    else {
+        fetch(BASE_URL).then(res => res.json()).then(drinks => {
+            allDrinks = drinks;
+          renderDrinks(drinks)
+        })
+    }
+    
   })
 
     game.addEventListener("click", e => {
         e.preventDefault()
+        getDrinks.classList.remove("disabled")
         getDrinks.classList.remove("active")
         game.classList.add("active")
         runGame()
@@ -91,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", event=> {
             event.preventDefault()
             const name = event.target.username.value
+            // current_user = event.target.username.value
             const number = event.target.tablenumber.value
             currentUser.name.push(name)
             currentUser.table.push(number)
@@ -127,7 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
-        
+       
+      if (current_user === false ) {
         const logOutLi = document.createElement("li")
         const logOutA = document.createElement("a")
         logOutA.setAttribute('href', '#')
@@ -135,12 +151,16 @@ document.addEventListener("DOMContentLoaded", () => {
         logOutA.innerText = "Log Out"
         logOutLi.append(logOutA)
         ulNav.append(logOutLi)
-
+        current_user = true 
+    
         logOutLi.addEventListener('click', event => {
             logOutLi.remove()
+            current_user = false
             getDrinks.classList.remove("disabled")
             loginPage()
+            getDrinks.classList.add("disabled")
         } )
+     }
 
         const stylingDiv = document.createElement("div")
         stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
