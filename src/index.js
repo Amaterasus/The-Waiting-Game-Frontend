@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         getDrinks.classList.remove("disabled")
         getDrinks.classList.remove("active")
         game.classList.add("active")
+        getDrinks.classList.remove("disabled")
         runGame()
         
     })
@@ -197,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
         title.innerText = drink.name
         titleDiv.append(title)
 
-
         const descriptionDiv = document.createElement("div")
         descriptionDiv.className = "col-xl-7 col-lg-7 col-md-12 col-sm-12 col-xs-12"
         const description = document.createElement("p")
@@ -233,12 +233,9 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             flip = false
             main.append(newDiv, totalDiv)
-        }
-        else
-        {
+        } else {
             main.append(newDiv)
         }  
-
     }
 
     function addToOrder(drink) {
@@ -256,19 +253,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
             };
         }
-        renderShoppingCart();
-
+        // renderShoppingCart();
+        renderSelectedItem(drink)
     };
 
-    function renderShoppingCart() {
-        currentOrder.items.forEach(item => renderSelectedItem(item))
-    }
+    // function renderShoppingCart() {
+    //     currentOrder.items.forEach(item => renderSelectedItem(item))
+    // }
 
     function renderSelectedItem(drink) {
         const totalDiv = document.getElementById("total");
         const drinkList = document.createElement("span");
         const removeButton = document.createElement("button");
-        const quantity = drink.quantity;
 
         removeButton.className = "btn btn-outline-danger btn-xs py-0";
         removeButton.innerText = "x";
@@ -282,8 +278,16 @@ document.addEventListener("DOMContentLoaded", () => {
             e.target.parentElement.remove();
             renderTotal();
         })
-        
-        drinkList.innerText = `${drink.name} x ${quantity}  `;
+
+        function quantity(drink) {
+            for( var i in currentOrder.items ) {
+                if(currentOrder.items[i].drinkId === drink.id) {
+                    return currentOrder.items[i].quantity
+                };
+            };
+        }
+
+        drinkList.innerText = `${drink.name} x ${quantity(drink)}  `;
         drinkList.append(removeButton);
         totalDiv.append(drinkList);
         renderTotal();
@@ -299,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let total = 0;
         items.forEach((item) => {
           const drink = allDrinks.find((d) => d.id === item.drinkId);
-          total += drink.price
+          total += drink.price * item.quantity;
         });
         return total.toFixed(2);
     };
@@ -324,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function quizMaster(results) {
         let questions = [...results]
         const score = document.createElement("h2")
-        score.className
+        score.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right"
         score.innerText = "Score: "
         let scoreSpan = document.createElement("span")
         scoreSpan.innerText = 0
@@ -343,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // go to another fucntion where you render the question
             // then you return the users answer
-            // 
+            
             const userAnswer = await renderQuestion(question.question, choices) // make a function here that renders the page and returns the users answer
             
             userAnswer === answer ? scoreSpan.innerText++ : false // if true increase the points by 1 else do nothing
@@ -357,6 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderQuestion = (question, choices) => {
         
         const div = document.createElement('div')
+        div.className = "offset-xl-2 offset-lg-2 offset-md-2 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center"
         const questionTag = document.createElement("h2")
         questionTag.innerText = question
 
