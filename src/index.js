@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault()
         getDrinks.classList.remove("active")
         game.classList.add("active")
+        getDrinks.classList.remove("disabled")
         runGame()
         
     })
@@ -304,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function quizMaster(results) {
         let questions = [...results]
         const score = document.createElement("h2")
-        score.className
+        score.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right"
         score.innerText = "Score: "
         let scoreSpan = document.createElement("span")
         scoreSpan.innerText = 0
@@ -323,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // go to another fucntion where you render the question
             // then you return the users answer
-            // 
+            
             const userAnswer = await renderQuestion(question.question, choices) // make a function here that renders the page and returns the users answer
             
             userAnswer === answer ? scoreSpan.innerText++ : false // if true increase the points by 1 else do nothing
@@ -337,6 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderQuestion = (question, choices) => {
         
         const div = document.createElement('div')
+        div.className = "offset-xl-2 offset-lg-2 offset-md-2 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center"
         const questionTag = document.createElement("h2")
         questionTag.innerText = question
 
