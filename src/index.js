@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement('div')
         div.className = "offset-xl-2 offset-lg-2 offset-md-2 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center"
         const questionTag = document.createElement("h2")
-        questionTag.innerText = question
+        questionTag.innerHTML = question
 
         div.append(questionTag)
         
@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const choiceTag = document.createElement("button")
             // choiceTag.append
             choiceTag.className = "btn btn-primary"
-            choiceTag.innerText = choice 
+            choiceTag.innerHTML = choice 
             choiceTag.value = choice 
 
             div.append(choiceTag)
