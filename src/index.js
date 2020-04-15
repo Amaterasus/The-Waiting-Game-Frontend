@@ -1,8 +1,8 @@
 // API
-const BASE_URL = "http://localhost:3000/drinks"
-const USER_URL = "http://localhost:3000/users"
+const BASE_URL = "https://twgbackend.herokuapp.com"
+const USERS_URL = `${BASE_URL}/users`
 const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
-
+const DRINKS_URL = `${BASE_URL}/drinks`
 
 //current user 
 let current_user = false
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         getDrinks.classList.add("disabled")
     }
     else {
-        fetch(BASE_URL).then(res => res.json()).then(drinks => {
+        fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
             allDrinks = drinks;
           renderDrinks(drinks)
         })
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const parseJSON = resp => {
         console.log("this is the response from the server", resp);
         if (resp.ok) {
-            return resp.json().then(fetch(BASE_URL).then(res => res.json()).then(drinks => {
+            return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
                 allDrinks = drinks;
               renderDrinks(drinks)
             }))
