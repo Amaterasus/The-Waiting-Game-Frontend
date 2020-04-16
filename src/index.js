@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const anchorDiv = document.createElement("div")
          anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
-        parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center parent"
+        parentDiv.className = "offset-lg-3 col-lg-6 text-center justify-content-center align-items-center parent"
         const childDiv = document.createElement("div")
-        childDiv.className = "col-4 colour"
+        childDiv.className = " col-4 colour"
         const form = document.createElement("form")
         const pButton = document.createElement("p")
         const inputButton = document.createElement("input")
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         childDiv.append(form)
         parentDiv.append(childDiv)
         anchorDiv.append(parentDiv)
-        main.append(parentDiv)
+        main.append(anchorDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
