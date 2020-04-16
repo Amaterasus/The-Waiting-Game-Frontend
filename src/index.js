@@ -356,9 +356,11 @@ document.addEventListener("DOMContentLoaded", () => {
             main.innerText= ""
             main.append(score)
 
+            userAnswer === answer ? scoreSpan.innerText++ : false
+
             const con = await renderAnswers(question.question, choices, answer)
 
-            userAnswer === answer ? scoreSpan.innerText++ : false // if true increase the points by 1 else do nothing
+             // if true increase the points by 1 else do nothing
             // compare the users choice with the answer we pulled out at the start
 
         }
