@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         totalDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
         const orderDiv = document.createElement("div")
         orderDiv.id = "order"
-        orderDiv.className = "row order"
+        orderDiv.className = "row text-center order"
         totalDiv.append(orderDiv, totalText, placeOrderButton);   
         drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
 
@@ -267,8 +267,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderSelectedItem(drink) {
-        const orderdiv = document.getElementById("order");
+        console.log("before drink")
+        console.log(drink.drinkId)
+        const orderDiv = document.getElementById("order");
         const drinkList = document.createElement("span");
+        const itemDiv = document.createElement("div")
+        itemDiv.className = "row text-center"
         const drinkListDiv = document.createElement("div")
         drinkListDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"
         drinkListDiv.append(drinkList)
@@ -278,34 +282,43 @@ document.addEventListener("DOMContentLoaded", () => {
         removeButtonDiv.append(removeButton)
 
         removeButton.className = "btn btn-outline-danger btn-xs py-0";
+        removeButton.value = drink.drinkId
         removeButton.innerText = "x";
         removeButton.drinkId = drink.id;
 
         removeButton.addEventListener('click', (e) => {
-            const array = currentOrder.items;
-            const itemToRemove = array.find((item) => item.drinkId === e.target.drinkId);
-            const index = array.indexOf(itemToRemove);
-            array.splice(index, 1);
-            e.target.parentElement.remove();
+            console.log("inside removebutton event listener")
+            console.log(e.target.value)
+            currentOrder.items = currentOrder.items.filter(item => item.drinkId !== parseInt(e.target.value))
+            e.target.parentElement.parentElement.remove();
+            console.log("before currentOrder.items in removeButton event listener")
+            console.log(currentOrder.items)
             renderTotal();
         })
 
         drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
-        drinkListDiv.append(removeButton);
-        orderdiv.append(drinkListDiv);
+        // drinkList.append(removeButton);
+        itemDiv.append(drinkListDiv, removeButtonDiv);
+        orderDiv.append(itemDiv)
         renderTotal();
     }
 
     function renderTotal() {
+        console.log("before currentOrder.items in renderTotal")
+        console.log(currentOrder.items)
         totalText.innerText = `ORDER TOTAL: £${calculateTotal(currentOrder.items)}`
         
     }
 
     function calculateTotal(items) {
         let total = 0;
+        console.log(items)
         items.forEach((item) => {
-          const drink = allDrinks.find((d) => d.id === item.drinkId);
+            console.log(item)
+          const drink = allDrinks.find(d => d.id === item.drinkId);
+          console.log(drink)
           total += drink.price * item.quantity;
+          console.log(total)
         });
         return total.toFixed(2);
     };
