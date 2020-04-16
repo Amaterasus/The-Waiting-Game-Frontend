@@ -69,10 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loginPage = () => {
         main.innerText = ""
-        const anchorDiv = document.createElement("div")
-         anchorDiv.className = "container h-100"
+        main.className = "container-fluid"
+        // const anchorDiv = document.createElement("div")
+        //  anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
-        parentDiv.className = "offset-lg-3 col-lg-6 text-center justify-content-center align-items-center parent"
+        parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center parent"
         const childDiv = document.createElement("div")
         childDiv.className = " col-4 colour"
         const form = document.createElement("form")
@@ -100,8 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         form.append(p1,p2, pButton)
         childDiv.append(form)
         parentDiv.append(childDiv)
-        anchorDiv.append(parentDiv)
-        main.append(anchorDiv)
+        // anchorDiv.append(parentDiv)
+        main.append(parentDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
@@ -143,8 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const renderDrinks = (drinks) => {
         main.innerText = ""
-       
-      if (current_user === false ) {
+        main.className = "row container-fluid"
+        if (current_user === false ) {
         const logOutLi = document.createElement("li")
         const logOutA = document.createElement("a")
         logOutA.setAttribute('href', '#')
