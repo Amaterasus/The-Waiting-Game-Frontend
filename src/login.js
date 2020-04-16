@@ -1,6 +1,7 @@
 // API
 const BASE_URL = "https://twgbackend.herokuapp.com"
 const USER_URL = `${BASE_URL}/users`
+const ORDERS_URL = `${BASE_URL}/orders`
 const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 const DRINKS_URL = `${BASE_URL}/drinks`
 
@@ -13,8 +14,8 @@ let currentOrder = {
 };
 let allDrinks = [];
 let currentUser = {
-    name: [],
-    table: []
+    name: "",
+    table: ""
 };
 
 // Dom stuff
@@ -108,8 +109,8 @@ let flip = true
             const name = event.target.username.value
             // current_user = event.target.username.value
             const number = event.target.tablenumber.value
-            currentUser.name.push(name)
-            currentUser.table.push(number)
+            currentUser.name = name
+            currentUser.table = number
             createUser(name,number)
         })
     }

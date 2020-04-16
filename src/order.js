@@ -124,8 +124,6 @@ const renderDrinks = (drinks) => {
     }
 
     function renderSelectedItem(drink) {
-        console.log("before drink")
-        console.log(drink.drinkId)
         const orderDiv = document.getElementById("order");
         const drinkList = document.createElement("span");
         const itemDiv = document.createElement("div")
@@ -144,27 +142,20 @@ const renderDrinks = (drinks) => {
         removeButton.drinkId = drink.id;
 
         removeButton.addEventListener('click', (e) => {
-            console.log("inside removebutton event listener")
-            console.log(e.target.value)
             currentOrder.items = currentOrder.items.filter(item => item.drinkId !== parseInt(e.target.value))
             e.target.parentElement.parentElement.remove();
-            console.log("before currentOrder.items in removeButton event listener")
-            console.log(currentOrder.items)
             renderTotal();
         })
 
         drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
-        // drinkList.append(removeButton);
         itemDiv.append(drinkListDiv, removeButtonDiv);
         orderDiv.append(itemDiv)
         renderTotal();
+        
     }
 
     function renderTotal() {
-        console.log("before currentOrder.items in renderTotal")
-        console.log(currentOrder.items)
         totalText.innerText = `ORDER TOTAL: £${calculateTotal(currentOrder.items)}`
-        
     }
 
     function calculateTotal(items) {
@@ -181,11 +172,22 @@ const renderDrinks = (drinks) => {
     };
  
     placeOrderButton.addEventListener("click", () => {
-        currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder()
+        currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder(currentOrder, currentUser)
     });
     
-    function postOrder() {
-
-        console.log("I'm here")
-        console.log(currentUser)
+    function postOrder(currentOrder, currentUser) {
+        const orderObj = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify( {
+                "current_order": currentOrder,
+                "current_user": currentUser
+            }),
+        }
+        fetch( ORDERS_URL, orderObj ) 
+        .then(res => console.log(res))
     }
+
