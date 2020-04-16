@@ -1,7 +1,8 @@
 // API
 const BASE_URL = "https://twgbackend.herokuapp.com"
 const USER_URL = `${BASE_URL}/users`
-const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
+let num = 0 
+let QUIZ_URL = `https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple`
 const DRINKS_URL = `${BASE_URL}/drinks`
 
 //current user 
@@ -62,7 +63,7 @@ let flip = true
         getDrinks.classList.remove("active")
         game.classList.add("active")
         getDrinks.classList.remove("disabled")
-        runGame()
+        renderTopics()
         
     })
     
