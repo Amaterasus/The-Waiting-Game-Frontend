@@ -48,17 +48,30 @@ getDrinks.addEventListener("click", e => {
     getDrinks.classList.add("active")
     game.classList.remove("active")
 
-if (!current_user === true ){
-    loginPage()
-    getDrinks.classList.add("disabled")
-}
-else {
-    fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
-        allDrinks = drinks;
-        renderDrinks(drinks)
+    if (!current_user === true ){
+        loginPage()
+        getDrinks.classList.add("disabled")
+    }
+    else {
+        fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
+            allDrinks = drinks;
+          renderDrinks(drinks)
+        })
+    }
+    
+  })
+
+    game.addEventListener("click", e => {
+        e.preventDefault()
+        getDrinks.classList.remove("disabled")
+        getDrinks.classList.remove("active")
+        game.classList.add("active")
+        getDrinks.classList.remove("disabled")
+        renderTopics()
+        
     })
-}
-})
+
+
 
 game.addEventListener("click", e => {
     e.preventDefault()
@@ -115,6 +128,20 @@ game.addEventListener("click", e => {
             createUser(name,number)
          })
     }
+
+    const createUser = (name, number) => {
+        fetch(USER_URL, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+               name: name,
+               table_number: number
+            })
+        }).then(parseJSON)
+       .catch(error => error.then(msg => {alert(msg.errors)}));
+   };
 
 const parseJSON = resp => {
     console.log("this is the response from the server", resp);
