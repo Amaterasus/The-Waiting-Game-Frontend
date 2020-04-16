@@ -291,8 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
-        // drinkList.append(removeButton);
-        orderdiv.append(drinkListDiv, removeButtonDiv);
+        drinkListDiv.append(removeButton);
+        orderdiv.append(drinkListDiv);
         renderTotal();
     }
 
