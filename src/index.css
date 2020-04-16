@@ -32,6 +32,7 @@ div.sticky {
     border: 1px solid #c1c1c1;
     border: 1px solid lightgrey;
     border-radius: 10px;
+    
   } 
 
   .colour > * {
@@ -71,9 +72,9 @@ div.sticky {
     /* grid-template-columns: 2fr fr; */
     padding: 1px;
     grid-gap: 20px;
+    
   }
-  
-  
+    
   p.drinks{
     padding: 20px;
     font-size: 16px;
