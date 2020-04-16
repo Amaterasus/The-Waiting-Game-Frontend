@@ -1,5 +1,6 @@
 // API
-const BASE_URL = "https://twgbackend.herokuapp.com"
+// const BASE_URL = "https://twgbackend.herokuapp.com"
+const BASE_URL = "http://localhost:3000"
 const USER_URL = `${BASE_URL}/users`
 const ORDERS_URL = `${BASE_URL}/orders`
 // const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
@@ -57,7 +58,6 @@ else {
         renderDrinks(drinks)
     })
 }
-
 })
 
 game.addEventListener("click", e => {
@@ -67,7 +67,7 @@ game.addEventListener("click", e => {
     game.classList.add("active")
     getDrinks.classList.remove("disabled")
     pickGame()
-    
+})  
     const loginPage = () => {
         main.innerText = ""
         main.className = "container-fluid"
@@ -113,7 +113,7 @@ game.addEventListener("click", e => {
             currentUser.name = name
             currentUser.table = number
             createUser(name,number)
-        })
+         })
     }
 
 const parseJSON = resp => {
@@ -126,4 +126,4 @@ const parseJSON = resp => {
     } else {
         throw resp.json();
     }
-    };
+}
