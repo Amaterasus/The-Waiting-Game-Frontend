@@ -2,8 +2,11 @@
 const BASE_URL = "https://twgbackend.herokuapp.com"
 const USER_URL = `${BASE_URL}/users`
 const ORDERS_URL = `${BASE_URL}/orders`
-const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
+// const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
+const QUIZ_START_URL = "https://opentdb.com/api.php?amount=20&category="
+const QUIZ_END_URL = "&difficulty=easy"
 const DRINKS_URL = `${BASE_URL}/drinks`
+
 
 //current user 
 let current_user = false
@@ -39,33 +42,31 @@ let itemArray = [];
 let flip = true
 
 
-    getDrinks.addEventListener("click", e => {
-        e.preventDefault()
-        getDrinks.classList.add("active")
-        game.classList.remove("active")
+getDrinks.addEventListener("click", e => {
+    e.preventDefault()
+    getDrinks.classList.add("active")
+    game.classList.remove("active")
 
-    if (!current_user === true ){
-        loginPage()
-        getDrinks.classList.add("disabled")
-    }
-    else {
-        fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
-            allDrinks = drinks;
-          renderDrinks(drinks)
-        })
-    }
-    
-  })
-
-    game.addEventListener("click", e => {
-        e.preventDefault()
-        getDrinks.classList.remove("disabled")
-        getDrinks.classList.remove("active")
-        game.classList.add("active")
-        getDrinks.classList.remove("disabled")
-        runGame()
-        
+if (!current_user === true ){
+    loginPage()
+    getDrinks.classList.add("disabled")
+}
+else {
+    fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
+        allDrinks = drinks;
+        renderDrinks(drinks)
     })
+}
+
+})
+
+game.addEventListener("click", e => {
+    e.preventDefault()
+    getDrinks.classList.remove("disabled")
+    getDrinks.classList.remove("active")
+    game.classList.add("active")
+    getDrinks.classList.remove("disabled")
+    pickGame()
     
     const loginPage = () => {
         main.innerText = ""
@@ -115,29 +116,14 @@ let flip = true
         })
     }
 
-    const createUser = (name, number) => {
-         fetch(USER_URL, {
-             method: "POST",
-             headers: {
-                'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({
-                name: name,
-                table_number: number
-             })
-         }).then(parseJSON)
-        .catch(error => error.then(msg => {alert(msg.errors)}));
+const parseJSON = resp => {
+    console.log("this is the response from the server", resp);
+    if (resp.ok) {
+        return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
+            allDrinks = drinks;
+            renderDrinks(drinks)
+        }))
+    } else {
+        throw resp.json();
+    }
     };
-
-    const parseJSON = resp => {
-        console.log("this is the response from the server", resp);
-        if (resp.ok) {
-            return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
-                allDrinks = drinks;
-              renderDrinks(drinks)
-            }))
-        } else {
-          throw resp.json();
-        }
-      };
-    
