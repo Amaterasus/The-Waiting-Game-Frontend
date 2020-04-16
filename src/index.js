@@ -1,6 +1,6 @@
 // API
 const BASE_URL = "https://twgbackend.herokuapp.com"
-const USERS_URL = `${BASE_URL}/users`
+const USER_URL = `${BASE_URL}/users`
 const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 const DRINKS_URL = `${BASE_URL}/drinks`
 
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const orderDiv = document.createElement("div")
         orderDiv.id = "order"
         orderDiv.className = "order"
-        totalDiv.append(orderDiv, totalText);   
+        totalDiv.append(orderDiv, totalText, placeOrderButton);   
         drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
 
     }
@@ -242,6 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let orderItem = currentOrder.items.find(item => item.drinkId === drink.id);
         if(orderItem === undefined) {
             const newItem = { 
+                name: drink.name,
                 drinkId: drink.id,
                 quantity: 1 
             };
@@ -253,16 +254,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
             };
         }
-        // renderShoppingCart();
-        renderSelectedItem(drink)
+        renderShoppingCart();
+        // renderSelectedItem(drink)
     };
 
-    // function renderShoppingCart() {
-    //     currentOrder.items.forEach(item => renderSelectedItem(item))
-    // }
+    function renderShoppingCart() {
+        const orderDiv = document.getElementById("order")
+        orderDiv.innerText = ""
+        currentOrder.items.forEach(item => renderSelectedItem(item))
+    }
 
     function renderSelectedItem(drink) {
-        const totalDiv = document.getElementById("total");
+        console.log(drink)
+        const orderdiv = document.getElementById("order");
         const drinkList = document.createElement("span");
         const removeButton = document.createElement("button");
 
@@ -278,25 +282,16 @@ document.addEventListener("DOMContentLoaded", () => {
             e.target.parentElement.remove();
             renderTotal();
         })
-
-        function quantity(drink) {
-            for( var i in currentOrder.items ) {
-                if(currentOrder.items[i].drinkId === drink.id) {
-                    return currentOrder.items[i].quantity
-                };
-            };
-        }
-
-        drinkList.innerText = `${drink.name} x ${quantity(drink)}  `;
+        
+        drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
         drinkList.append(removeButton);
-        totalDiv.append(drinkList);
+        orderdiv.append(drinkList);
         renderTotal();
     }
 
     function renderTotal() {
-        const orderDiv = document.getElementById("order");
         totalText.innerText = `ORDER TOTAL: £${calculateTotal(currentOrder.items)}`
-        orderDiv.append(placeOrderButton);
+        
     }
 
     function calculateTotal(items) {
