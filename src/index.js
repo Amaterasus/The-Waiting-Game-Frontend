@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginPage = () => {
         main.innerText = ""
         const anchorDiv = document.createElement("div")
-        anchorDiv.className = "container h-100"
+         anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
-        parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center"
+        parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center parent"
         const childDiv = document.createElement("div")
         childDiv.className = "col-4 colour"
         const form = document.createElement("form")
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         childDiv.append(form)
         parentDiv.append(childDiv)
         anchorDiv.append(parentDiv)
-        main.append(anchorDiv)
+        main.append(parentDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         logOutLi.append(logOutA)
         ulNav.append(logOutLi)
         current_user = true 
+        flip = true 
     
         logOutLi.addEventListener('click', event => {
             logOutLi.remove()
@@ -177,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const renderSingleDrink = (drink, totalDiv) => {
+         
         const newDiv = document.createElement("div")
         newDiv.className = "row col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10"
 
@@ -322,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(QUIZ_URL)
         .then(res => res.json())
         .then(response => quizMaster(response.results))
+        flip = true 
     }
 
 
