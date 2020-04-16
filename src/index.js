@@ -1,6 +1,6 @@
 // API
 const BASE_URL = "https://twgbackend.herokuapp.com"
-const USERS_URL = `${BASE_URL}/users`
+const USER_URL = `${BASE_URL}/users`
 const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 const DRINKS_URL = `${BASE_URL}/drinks`
 
