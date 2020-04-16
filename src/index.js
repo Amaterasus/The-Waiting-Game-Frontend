@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         totalDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
         const orderDiv = document.createElement("div")
         orderDiv.id = "order"
-        orderDiv.className = "order"
+        orderDiv.className = "row order"
         totalDiv.append(orderDiv, totalText, placeOrderButton);   
         drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
 
@@ -265,10 +265,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderSelectedItem(drink) {
-        console.log(drink)
         const orderdiv = document.getElementById("order");
         const drinkList = document.createElement("span");
+        const drinkListDiv = document.createElement("div")
+        drinkListDiv.className = "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"
+        drinkListDiv.append(drinkList)
         const removeButton = document.createElement("button");
+        const removeButtonDiv = document.createElement("div")
+        removeButtonDiv.className = "col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4"
+        removeButtonDiv.append(removeButton)
 
         removeButton.className = "btn btn-outline-danger btn-xs py-0";
         removeButton.innerText = "x";
@@ -282,10 +287,10 @@ document.addEventListener("DOMContentLoaded", () => {
             e.target.parentElement.remove();
             renderTotal();
         })
-        
+
         drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
-        drinkList.append(removeButton);
-        orderdiv.append(drinkList);
+        // drinkList.append(removeButton);
+        orderdiv.append(drinkListDiv, removeButtonDiv);
         renderTotal();
     }
 
