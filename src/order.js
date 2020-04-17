@@ -188,7 +188,6 @@ const renderDrinks = (drinks) => {
             }),
         }
         fetch( ORDERS_URL, orderObj ) 
-        .then(res => res.json())
         .then(alert("Your order has been placed!"))
     }
 
