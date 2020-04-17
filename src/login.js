@@ -66,11 +66,9 @@ getDrinks.addEventListener("click", e => {
         getDrinks.classList.remove("active")
         game.classList.add("active")
         getDrinks.classList.remove("disabled")
+        flip = true
         renderTopics()
-        
     })
-
-
 
 game.addEventListener("click", e => {
     e.preventDefault()
@@ -78,7 +76,6 @@ game.addEventListener("click", e => {
     getDrinks.classList.remove("active")
     game.classList.add("active")
     getDrinks.classList.remove("disabled")
-    pickGame()
 })  
     const loginPage = () => {
         main.innerText = ""
