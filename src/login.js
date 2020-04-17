@@ -83,8 +83,6 @@ game.addEventListener("click", e => {
     const loginPage = () => {
         main.innerText = ""
         main.className = "container-fluid"
-        // const anchorDiv = document.createElement("div")
-        //  anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
         parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center parent"
         const childDiv = document.createElement("div")
@@ -114,13 +112,11 @@ game.addEventListener("click", e => {
         form.append(p1,p2, pButton)
         childDiv.append(form)
         parentDiv.append(childDiv)
-        // anchorDiv.append(parentDiv)
         main.append(parentDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
             const name = event.target.username.value
-            // current_user = event.target.username.value
             const number = event.target.tablenumber.value
             currentUser.name = name
             currentUser.table = number

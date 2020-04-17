@@ -2,37 +2,37 @@ const renderDrinks = (drinks) => {
         main.innerText = ""
         main.className = "row container-fluid"
         if (current_user === false ) {
-        const logOutLi = document.createElement("li")
-        const logOutA = document.createElement("a")
-        logOutA.setAttribute('href', '#')
-        logOutA.className = "nav-link"
-        logOutA.innerText = "Log Out"
-        logOutLi.append(logOutA)
-        ulNav.append(logOutLi)
-        current_user = true 
-        flip = true 
+            const logOutLi = document.createElement("li")
+            const logOutA = document.createElement("a")
+            logOutA.setAttribute('href', '#')
+            logOutA.className = "nav-link"
+            logOutA.innerText = "Log Out"
+            logOutLi.append(logOutA)
+            ulNav.append(logOutLi)
+            current_user = true 
+            flip = true 
     
-        logOutLi.addEventListener('click', event => {
-            logOutLi.remove()
-            current_user = false
-            getDrinks.classList.remove("disabled")
-            loginPage()
-            getDrinks.classList.add("disabled")
-        } )
-     }
+            logOutLi.addEventListener('click', event => {
+                logOutLi.remove()
+                current_user = false
+                getDrinks.classList.remove("disabled")
+                loginPage()
+                getDrinks.classList.add("disabled")
+            })
+        }
 
-        const stylingDiv = document.createElement("div")
+        let stylingDiv = document.createElement("div")
         stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
-        const totalDiv = document.createElement("div")
+        let totalDiv = document.createElement("div")
         totalDiv.id = "total"
         totalDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
-        const orderDiv = document.createElement("div")
+        let orderDiv = document.createElement("div")
         orderDiv.id = "order"
         orderDiv.className = "row text-center order"
         totalDiv.append(orderDiv, totalText, placeOrderButton);   
         drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
 
-    }
+}
 
     const renderSingleDrink = (drink, totalDiv) => {
          
