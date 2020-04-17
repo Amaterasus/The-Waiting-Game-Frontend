@@ -80,6 +80,12 @@ div.sticky {
 
   }
 
+  #total {
+    background:#49525a;
+    color: honeydew;
+    border-radius: 10px;
+  }
+
 
   label  {
     color: honeydew;
