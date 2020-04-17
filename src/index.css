@@ -28,7 +28,7 @@ div.sticky {
     max-width: 700px;
     margin: 0 auto;
     padding: 5px;
-    background:lightyellow;
+    background:#49525a;
     border: 1px solid #c1c1c1;
     border: 1px solid lightgrey;
     border-radius: 10px;
@@ -48,7 +48,7 @@ div.sticky {
   textarea,
   button {
     width: 75%;
-    border: 1px solid #000;
+    border: 1px solid rgb(20, 19, 19);
   }
 
 
@@ -79,11 +79,18 @@ div.sticky {
     margin: 1px;
 
   }
+
+
+  label  {
+    color: honeydew;
+  }
+
   p.drinks{
     padding: 20px;
     font-size: 16px;
     text-align: center;
-    background: lightyellow;
+    color: honeydew;
+    background:#49525a;
     border: 1px solid lightgrey;
     border-radius: 5px;
   }

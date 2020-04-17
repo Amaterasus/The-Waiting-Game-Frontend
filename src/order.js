@@ -114,7 +114,6 @@ const renderDrinks = (drinks) => {
             };
         }
         renderShoppingCart();
-        // renderSelectedItem(drink)
     };
 
     function renderShoppingCart() {
