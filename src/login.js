@@ -30,9 +30,6 @@ const main = document.getElementById("main");
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
 
-// const orderNowDiv = document.getElementById("order");
-// orderNowDiv.className = "order";
-
 const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
 placeOrderButton.className = "btn btn-danger";

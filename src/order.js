@@ -160,19 +160,18 @@ const renderDrinks = (drinks) => {
 
     function calculateTotal(items) {
         let total = 0;
-        console.log(items)
         items.forEach((item) => {
-            console.log(item)
           const drink = allDrinks.find(d => d.id === item.drinkId);
-          console.log(drink)
           total += drink.price * item.quantity;
-          console.log(total)
         });
         return total.toFixed(2);
     };
  
     placeOrderButton.addEventListener("click", () => {
         currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder(currentOrder, currentUser)
+        const orderDiv = document.getElementById("order");
+        orderDiv.remove();
+        totalText.innerText = `ORDER TOTAL: £0.00`;
     });
     
     function postOrder(currentOrder, currentUser) {
@@ -189,5 +188,6 @@ const renderDrinks = (drinks) => {
         }
         fetch( ORDERS_URL, orderObj ) 
         .then(res => console.log(res))
+        .then(alert("Your order has been placed!"))
     }
 
