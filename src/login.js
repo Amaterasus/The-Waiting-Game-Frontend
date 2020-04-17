@@ -70,13 +70,8 @@ getDrinks.addEventListener("click", e => {
         renderTopics()
     })
 
-game.addEventListener("click", e => {
-    e.preventDefault()
-    getDrinks.classList.remove("disabled")
-    getDrinks.classList.remove("active")
-    game.classList.add("active")
-    getDrinks.classList.remove("disabled")
-})  
+
+
     const loginPage = () => {
         main.innerText = ""
         main.className = "container-fluid"

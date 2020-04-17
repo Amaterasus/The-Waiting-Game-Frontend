@@ -10,7 +10,7 @@ const renderDrinks = (drinks) => {
             logOutLi.append(logOutA)
             ulNav.append(logOutLi)
             current_user = true 
-            flip = true 
+            flip =true 
     
             logOutLi.addEventListener('click', event => {
                 logOutLi.remove()
@@ -20,7 +20,7 @@ const renderDrinks = (drinks) => {
                 getDrinks.classList.add("disabled")
             })
         }
-
+        
         let stylingDiv = document.createElement("div")
         stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
         let totalDiv = document.createElement("div")
@@ -114,7 +114,6 @@ const renderDrinks = (drinks) => {
             };
         }
         renderShoppingCart();
-        // renderSelectedItem(drink)
     };
 
     function renderShoppingCart() {
