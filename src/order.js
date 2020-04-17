@@ -172,6 +172,7 @@ const renderDrinks = (drinks) => {
         const orderDiv = document.getElementById("order");
         orderDiv.remove();
         totalText.innerText = `ORDER TOTAL: £0.00`;
+        currentOrder.items = [];
     });
     
     function postOrder(currentOrder, currentUser) {
