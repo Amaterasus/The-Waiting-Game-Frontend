@@ -1,46 +1,42 @@
-// async function pickGame() {
-//     main.innerText = ""
-//     const games = [
-//         {
-//             number: 9,
-//             quiz: "General Knowledge"
-//         },
-//         {
-//             number: 31,
-//             quiz: "Japanese Anime & Manga"
-//         }
-//     ]
-//     const number = await renderQuizBoxes(games)
-//     console.log(number)
-
-//     runGame(number)
-// }
 function renderTopics() {
+
+    const games = [
+                {
+                    number: 9,
+                    quiz: "General Knowledge"
+                },
+                {
+                    number: 31,
+                    quiz: "Japanese Anime & Manga"
+                },
+                {
+                    number: 12,
+                    quiz: "Entertainment: Music"
+                },
+                {
+                    number: 18,
+                    quiz: "Science: Computer"
+                }
+            ]
     main.innerText = ""
     main.classList.remove("row")
     const div = document.createElement("div")
     const title = document.createElement("h2")
     title.innerText = "Choose a Topic"
-    const buttonScience = document.createElement("button")
-    const buttonMusic  = document.createElement("button")
-    buttonScience.innerText = "Science: Computer"
-    buttonScience.className = "btn btn-primary"
-    buttonMusic.innerText = "Entertainment: Music"
-    buttonMusic.className = "btn btn-primary"
 
-    div.append(title, buttonScience, buttonMusic)
+    div.append(title)
+
+    games.forEach(game => {
+        const gameButton = document.createElement("button")
+        gameButton.className = "btn btn-primary"
+        gameButton.innerText = game.quiz
+
+        gameButton.addEventListener("click", () => runGame(`${QUIZ_START_URL}${game.number}${QUIZ_END_URL}`))
+
+        div.append(gameButton)
+    })
     main.append(div)
     
-     
-    buttonMusic.addEventListener("click", event => {
-        const MUSIC_URL = `https://opentdb.com/api.php?amount=50&category=12&difficulty=easy&type=multiple`
-        runGame(MUSIC_URL)
-    })
-
-    buttonScience.addEventListener("click", event => {
-        const SCIENCE_URL = `https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple`
-        runGame(SCIENCE_URL)
-    })
 
 }
     
@@ -51,55 +47,25 @@ function renderTopics() {
         flip = true 
     }
 
-
-const renderQuizBoxes = (games) => {
-    const div = document.createElement('div')
-    games.forEach(game => {
-        const choiceTag = document.createElement("button")
-        choiceTag.className = "btn btn-primary"
-        choiceTag.innerHTML = game.quiz 
-        choiceTag.value = game.number
-
-        div.append(choiceTag)
-      })
-       
-         main.append(div)
-            
-         return new Promise((resolve) => {
-            div.addEventListener('click', (e) => {
-                if (e.target.tagName === "BUTTON") resolve(e.target.value)
-        })
-
-    })
-}
-
-// const runGame = (quizNumber) => {
-//     console.log("I'm in run game!")
-//     fetch(`${QUIZ_START_URL}${quizNumber}${QUIZ_END_URL}`)
-//     .then(res => res.json())
-//     .then(response => quizMaster(response.results))
-//     flip = true 
-// }
-
-
 async function quizMaster(results) {
+    main.classList.add("row")
     let questions = [...results]
     const score = document.createElement("h2")
-    score.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right"
+    score.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right"
     score.innerText = "Score: "
     let scoreSpan = document.createElement("span")
     scoreSpan.innerText = 0
     score.append(scoreSpan)
     let qN = 0 
     const countH2 = document.createElement("h2")
-    countH2.className = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+    countH2.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6"
     
     while (questions.length > 0)
     {
         qN ++ 
         main.innerText= ""
-        countH2.innerText = `Question: ${qN}/50` 
-        main.append(score,countH2)
+        countH2.innerText = `Question: ${qN}/20` 
+        main.append(countH2, score)
         // pull out a random question
         const question = questions.sort(() => Math.random() - 0.5).pop(); // this works
         // pull out the answer of the question
@@ -113,8 +79,7 @@ async function quizMaster(results) {
         const userAnswer = await renderQuestion(question.question, choices) // make a function here that renders the page and returns the users answer
         
         main.innerText= ""
-        main.classList.add("row")
-        main.append(score,countH2)
+        main.append(countH2, score)
 
         userAnswer === answer ? scoreSpan.innerText++ : false
 
@@ -155,41 +120,6 @@ const renderQuestion = (question, choices) => {
     })
 }
 
-// const renderAnswers = (question, choices, answer) => {
-    
-//     const div = document.createElement('div')
-//     div.className = "offset-xl-2 offset-lg-2 offset-md-2 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8 text-center"
-//     const questionTag = document.createElement("h2")
-//     questionTag.innerHTML = question
-
-//     div.append(questionTag)
-//     console.log(answer)
-
-//     choices.forEach( choice => {
-//         console.log(choice)
-//         const choiceTag = document.createElement("button")
-//         // choiceTag.append
-//         if (choice === answer)
-//         {
-//             choiceTag.className = "btn btn-success"
-//         }
-//         else
-//         {
-//             choiceTag.className = "btn btn-danger"
-//         }
-        
-//         choiceTag.innerHTML = choice 
-//         choiceTag.value = choice 
-
-//         div.append(choiceTag)
-    
-//     })
-
-    // main.append(div)
-
-    // return new Promise((resolve) => {
-    //     div.addEventListener('click', (e) => {
-    //         resolve(e.target.value)
     const renderAnswers = (question, choices, answer) => {
         
         const div = document.createElement('div')
