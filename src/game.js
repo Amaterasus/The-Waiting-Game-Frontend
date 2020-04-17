@@ -101,13 +101,14 @@ async function quizMaster(results) {
     score.append(scoreSpan)
     let qN = 0
     const countH2 = document.createElement("h2")
-    countH2.innerText = `Question: ${qN}/${results.length}`
+    
     countH2.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6"
     
     while (questions.length > 0)
     {
         qN ++ 
         main.innerText= "" 
+        countH2.innerText = `Question: ${qN}/${results.length}`
         main.append(countH2, score)
         // pull out a random question
         const question = questions.sort(() => Math.random() - 0.5).pop(); // this works
