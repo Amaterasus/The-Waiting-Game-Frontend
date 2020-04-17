@@ -5,7 +5,9 @@ const USER_URL = `${BASE_URL}/users`
 const ORDERS_URL = `${BASE_URL}/orders`
 // const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
 const QUIZ_START_URL = "https://opentdb.com/api.php?amount=20&category="
-const QUIZ_END_URL = "&difficulty=easy"
+const QUIZ_EASY_END_URL = "&difficulty=easy"
+const QUIZ_MEDIUM_END_URL = "&difficulty=medium"
+const QUIZ_HARD_END_URL = "&difficulty=hard"
 const DRINKS_URL = `${BASE_URL}/drinks`
 
 

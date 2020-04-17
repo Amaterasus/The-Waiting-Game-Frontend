@@ -16,22 +16,65 @@ function renderTopics() {
                 {
                     number: 18,
                     quiz: "Science: Computer"
+                },
+                {
+                    number: 15,
+                    quiz: "Entertainment: Video Games"
+                },
+                {
+                    number: 11,
+                    quiz: "Entertainment: Film"
                 }
             ]
+    const easyGames = games.map(game => Object.assign({}, game))
+    easyGames.forEach(game => game.quiz = game.quiz + " (Easy)")
+    const mediumGames = games.map(game => Object.assign({}, game))
+    mediumGames.forEach(game => game.quiz = game.quiz + " (Medium)")
+    const hardGames = games.map(game => Object.assign({}, game))
+    hardGames.forEach(game => game.quiz = game.quiz + " (Hard)")
     main.innerText = ""
     main.classList.remove("row")
     const div = document.createElement("div")
     const title = document.createElement("h2")
     title.innerText = "Choose a Topic"
+    const easyDifficulty = document.createElement("h2")
+    easyDifficulty.innerText = "Easy"
+    easyDifficulty.className = "text-center"
+    const mediumDifficulty = document.createElement("h2")
+    mediumDifficulty.innerText = "Medium"
+    mediumDifficulty.className = "text-center"
+    const hardDifficulty = document.createElement("h2")
+    hardDifficulty.innerText = "Hard"
+    hardDifficulty.className = "text-center"
 
-    div.append(title)
+    div.append(title, easyDifficulty)
 
-    games.forEach(game => {
+    easyGames.forEach(game => {
         const gameButton = document.createElement("button")
         gameButton.className = "btn btn-primary"
         gameButton.innerText = game.quiz
 
-        gameButton.addEventListener("click", () => runGame(`${QUIZ_START_URL}${game.number}${QUIZ_END_URL}`))
+        gameButton.addEventListener("click", () => runGame(`${QUIZ_START_URL}${game.number}${QUIZ_EASY_END_URL}`))
+
+        div.append(gameButton)
+    })
+    div.append(mediumDifficulty)
+    mediumGames.forEach(game => {
+        const gameButton = document.createElement("button")
+        gameButton.className = "btn btn-primary"
+        gameButton.innerText = game.quiz
+
+        gameButton.addEventListener("click", () => runGame(`${QUIZ_START_URL}${game.number}${QUIZ_MEDIUM_END_URL}`))
+
+        div.append(gameButton)
+    })
+    div.append(hardDifficulty)
+    hardGames.forEach(game => {
+        const gameButton = document.createElement("button")
+        gameButton.className = "btn btn-primary"
+        gameButton.innerText = game.quiz
+
+        gameButton.addEventListener("click", () => runGame(`${QUIZ_START_URL}${game.number}${QUIZ_HARD_END_URL}`))
 
         div.append(gameButton)
     })
@@ -56,15 +99,15 @@ async function quizMaster(results) {
     let scoreSpan = document.createElement("span")
     scoreSpan.innerText = 0
     score.append(scoreSpan)
-    let qN = 0 
+    let qN = 0
     const countH2 = document.createElement("h2")
+    countH2.innerText = `Question: ${qN}/${results.length}`
     countH2.className = "col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6"
     
     while (questions.length > 0)
     {
         qN ++ 
-        main.innerText= ""
-        countH2.innerText = `Question: ${qN}/20` 
+        main.innerText= "" 
         main.append(countH2, score)
         // pull out a random question
         const question = questions.sort(() => Math.random() - 0.5).pop(); // this works
