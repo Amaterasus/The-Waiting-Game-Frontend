@@ -1,8 +1,15 @@
 // API
 const BASE_URL = "https://twgbackend.herokuapp.com"
+// const BASE_URL = "http://localhost:3000"
 const USER_URL = `${BASE_URL}/users`
-const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
+const ORDERS_URL = `${BASE_URL}/orders`
+// const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
+const QUIZ_START_URL = "https://opentdb.com/api.php?amount=20&category="
+const QUIZ_EASY_END_URL = "&difficulty=easy"
+const QUIZ_MEDIUM_END_URL = "&difficulty=medium"
+const QUIZ_HARD_END_URL = "&difficulty=hard"
 const DRINKS_URL = `${BASE_URL}/drinks`
+
 
 //current user 
 let current_user = false
@@ -13,8 +20,8 @@ let currentOrder = {
 };
 let allDrinks = [];
 let currentUser = {
-    name: [],
-    table: []
+    name: "",
+    table: ""
 };
 
 // Dom stuff
@@ -22,9 +29,6 @@ const main = document.getElementById("main");
 
 const totalText = document.createElement("h6");
 totalText.innerText = `ORDER TOTAL: £0.00`;
-
-// const orderNowDiv = document.getElementById("order");
-// orderNowDiv.className = "order";
 
 const placeOrderButton = document.createElement("button");
 placeOrderButton.innerText = "Place Order";
@@ -38,10 +42,10 @@ let itemArray = [];
 let flip = true
 
 
-    getDrinks.addEventListener("click", e => {
-        e.preventDefault()
-        getDrinks.classList.add("active")
-        game.classList.remove("active")
+getDrinks.addEventListener("click", e => {
+    e.preventDefault()
+    getDrinks.classList.add("active")
+    game.classList.remove("active")
 
     if (!current_user === true ){
         loginPage()
@@ -62,15 +66,20 @@ let flip = true
         getDrinks.classList.remove("active")
         game.classList.add("active")
         getDrinks.classList.remove("disabled")
-        runGame()
-        
+        flip = true
+        renderTopics()
     })
-    
+
+game.addEventListener("click", e => {
+    e.preventDefault()
+    getDrinks.classList.remove("disabled")
+    getDrinks.classList.remove("active")
+    game.classList.add("active")
+    getDrinks.classList.remove("disabled")
+})  
     const loginPage = () => {
         main.innerText = ""
         main.className = "container-fluid"
-        // const anchorDiv = document.createElement("div")
-        //  anchorDiv.className = "container h-100"
         const parentDiv = document.createElement("div")
         parentDiv.className = "offset-lg-3 col-lg-6 row h-100 text-center justify-content-center align-items-center parent"
         const childDiv = document.createElement("div")
@@ -100,43 +109,39 @@ let flip = true
         form.append(p1,p2, pButton)
         childDiv.append(form)
         parentDiv.append(childDiv)
-        // anchorDiv.append(parentDiv)
         main.append(parentDiv)
 
         form.addEventListener("submit", event=> {
             event.preventDefault()
             const name = event.target.username.value
-            // current_user = event.target.username.value
             const number = event.target.tablenumber.value
-            currentUser.name.push(name)
-            currentUser.table.push(number)
+            currentUser.name = name
+            currentUser.table = number
             createUser(name,number)
-        })
+         })
     }
 
     const createUser = (name, number) => {
-         fetch(USER_URL, {
-             method: "POST",
-             headers: {
-                'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({
-                name: name,
-                table_number: number
-             })
-         }).then(parseJSON)
-        .catch(error => error.then(msg => {alert(msg.errors)}));
-    };
+        fetch(USER_URL, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+               name: name,
+               table_number: number
+            })
+        }).then(parseJSON)
+       .catch(error => error.then(msg => {alert(msg.errors)}));
+   };
 
-    const parseJSON = resp => {
-        console.log("this is the response from the server", resp);
-        if (resp.ok) {
-            return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
-                allDrinks = drinks;
-              renderDrinks(drinks)
-            }))
-        } else {
-          throw resp.json();
-        }
-      };
-    
+const parseJSON = resp => {
+    if (resp.ok) {
+        return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
+            allDrinks = drinks;
+            renderDrinks(drinks)
+        }))
+    } else {
+        throw resp.json();
+    }
+}

@@ -2,37 +2,37 @@ const renderDrinks = (drinks) => {
         main.innerText = ""
         main.className = "row container-fluid"
         if (current_user === false ) {
-        const logOutLi = document.createElement("li")
-        const logOutA = document.createElement("a")
-        logOutA.setAttribute('href', '#')
-        logOutA.className = "nav-link"
-        logOutA.innerText = "Log Out"
-        logOutLi.append(logOutA)
-        ulNav.append(logOutLi)
-        current_user = true 
-        flip = true 
+            const logOutLi = document.createElement("li")
+            const logOutA = document.createElement("a")
+            logOutA.setAttribute('href', '#')
+            logOutA.className = "nav-link"
+            logOutA.innerText = "Log Out"
+            logOutLi.append(logOutA)
+            ulNav.append(logOutLi)
+            current_user = true 
+            flip = true 
     
-        logOutLi.addEventListener('click', event => {
-            logOutLi.remove()
-            current_user = false
-            getDrinks.classList.remove("disabled")
-            loginPage()
-            getDrinks.classList.add("disabled")
-        } )
-     }
+            logOutLi.addEventListener('click', event => {
+                logOutLi.remove()
+                current_user = false
+                getDrinks.classList.remove("disabled")
+                loginPage()
+                getDrinks.classList.add("disabled")
+            })
+        }
 
-        const stylingDiv = document.createElement("div")
+        let stylingDiv = document.createElement("div")
         stylingDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
-        const totalDiv = document.createElement("div")
+        let totalDiv = document.createElement("div")
         totalDiv.id = "total"
         totalDiv.className = "sticky col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2";
-        const orderDiv = document.createElement("div")
+        let orderDiv = document.createElement("div")
         orderDiv.id = "order"
         orderDiv.className = "row text-center order"
         totalDiv.append(orderDiv, totalText, placeOrderButton);   
         drinks.forEach(drink => renderSingleDrink(drink, totalDiv));
 
-    }
+}
 
     const renderSingleDrink = (drink, totalDiv) => {
          
@@ -124,8 +124,6 @@ const renderDrinks = (drinks) => {
     }
 
     function renderSelectedItem(drink) {
-        console.log("before drink")
-        console.log(drink.drinkId)
         const orderDiv = document.getElementById("order");
         const drinkList = document.createElement("span");
         const itemDiv = document.createElement("div")
@@ -144,48 +142,52 @@ const renderDrinks = (drinks) => {
         removeButton.drinkId = drink.id;
 
         removeButton.addEventListener('click', (e) => {
-            console.log("inside removebutton event listener")
-            console.log(e.target.value)
             currentOrder.items = currentOrder.items.filter(item => item.drinkId !== parseInt(e.target.value))
             e.target.parentElement.parentElement.remove();
-            console.log("before currentOrder.items in removeButton event listener")
-            console.log(currentOrder.items)
             renderTotal();
         })
 
         drinkList.innerText = `${drink.name} x ${drink.quantity}  `;
-        // drinkList.append(removeButton);
         itemDiv.append(drinkListDiv, removeButtonDiv);
         orderDiv.append(itemDiv)
         renderTotal();
+        
     }
 
     function renderTotal() {
-        console.log("before currentOrder.items in renderTotal")
-        console.log(currentOrder.items)
         totalText.innerText = `ORDER TOTAL: £${calculateTotal(currentOrder.items)}`
-        
     }
 
     function calculateTotal(items) {
         let total = 0;
-        console.log(items)
         items.forEach((item) => {
-            console.log(item)
           const drink = allDrinks.find(d => d.id === item.drinkId);
-          console.log(drink)
           total += drink.price * item.quantity;
-          console.log(total)
         });
         return total.toFixed(2);
     };
  
     placeOrderButton.addEventListener("click", () => {
-        currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder()
+        currentOrder.items.length === 0 ? alert("Your basket is empty... How drunk are you??") : postOrder(currentOrder, currentUser)
+        const orderDiv = document.getElementById("order");
+        orderDiv.remove();
+        totalText.innerText = `ORDER TOTAL: £0.00`;
+        currentOrder.items = [];
     });
     
-    function postOrder() {
-
-        console.log("I'm here")
-        console.log(currentUser)
+    function postOrder(currentOrder, currentUser) {
+        const orderObj = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify( {
+                "current_order": currentOrder,
+                "current_user": currentUser
+            }),
+        }
+        fetch( ORDERS_URL, orderObj ) 
+        .then(alert("Your order has been placed!"))
     }
+
