@@ -1,10 +1,10 @@
 // API
-// const BASE_URL = "https://twgbackend.herokuapp.com"
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "https://twgbackend.herokuapp.com"
+// const BASE_URL = "http://localhost:3000"
 const USER_URL = `${BASE_URL}/users`
 const ORDERS_URL = `${BASE_URL}/orders`
 // const QUIZ_URL = "https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple"
-const QUIZ_START_URL = "https://opentdb.com/api.php?amount=20&category="
+const QUIZ_START_URL = "https://opentdb.com/api.php?amount=1&category="
 const QUIZ_EASY_END_URL = "&difficulty=easy"
 const QUIZ_MEDIUM_END_URL = "&difficulty=medium"
 const QUIZ_HARD_END_URL = "&difficulty=hard"
@@ -139,7 +139,6 @@ game.addEventListener("click", e => {
    };
 
 const parseJSON = resp => {
-    console.log("this is the response from the server", resp);
     if (resp.ok) {
         return resp.json().then(fetch(DRINKS_URL).then(res => res.json()).then(drinks => {
             allDrinks = drinks;

@@ -131,7 +131,41 @@ async function quizMaster(results) {
 
          // if true increase the points by 1 else do nothing
         // compare the users choice with the answer we pulled out at the start
+        
     }
+
+    quizOver(results, scoreSpan)
+
+
+
+}
+
+const quizOver = (results, finalScore) => {
+    main.innerText = ""
+    main.classList.add("row")
+    const congratulationsDiv = document.createElement("div")
+    const congratulations = document.createElement("h2")
+    const stylingDiv = document.createElement("div")
+    const score = document.createElement("h2")
+    const scoreDiv = document.createElement("div")
+    congratulationsDiv.className = "text-center"
+    congratulations.innerText = `Congratulations you have finished the ${results[0].category} quiz on ${results[0].difficulty}`
+
+    scoreDiv.className = "text-center"
+    score.innerText = `Your final score was ${finalScore.innerText} out of ${results.length}`
+
+    const newGameButton = document.createElement("button")
+    newGameButton.className = "btn btn-primary"
+    newGameButton.innerText = "new game?"
+    newGameButton.addEventListener("click", () => {
+        renderTopics()
+    })
+
+
+
+    congratulationsDiv.append(congratulations)
+    scoreDiv.append(score)
+    main.append(congratulationsDiv, stylingDiv, scoreDiv, newGameButton)
 
 }
 
@@ -176,10 +210,8 @@ const renderQuestion = (question, choices) => {
         nextButton.innerText = "NEXT"
 
         div.append(questionTag)
-        console.log(answer)
 
         choices.forEach( choice => {
-            console.log(choice)
             const choiceTag = document.createElement("button")
             // choiceTag.append
             if (choice === answer)
