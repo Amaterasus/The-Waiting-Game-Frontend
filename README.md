@@ -1,2 +1,4 @@
 # The-Waiting-Game-Frontend
-Drinking app
+Play games while ordering drinks. 
+
+[Link to Website](https://the-waiting-game.netlify.app)
